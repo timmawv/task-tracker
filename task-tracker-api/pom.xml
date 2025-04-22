@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.3</version>
+		<version>3.4.4</version>
 		<relativePath/>
 	</parent>
 
@@ -20,6 +20,7 @@
 		<lombok.version>1.18.36</lombok.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<jwt.version>4.3.0</jwt.version>
+		<zxcvbn.version>1.7.0</zxcvbn.version>
 	</properties>
 
 	<dependencies>
@@ -68,6 +69,11 @@
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
 			<version>${mapstruct.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.nulab-inc</groupId>
+			<artifactId>zxcvbn</artifactId>
+			<version>${zxcvbn.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -2,7 +2,11 @@ package avlyakulov.timur.taskTrackerApi.config;
 
 import avlyakulov.timur.taskTrackerApi.dto.ErrorDto;
 import avlyakulov.timur.taskTrackerApi.exception.AppException;
+import avlyakulov.timur.taskTrackerApi.util.ErrorsParsingBindingResult;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,5 +17,12 @@ public class RestExceptionHandler {
     public ResponseEntity<ErrorDto> handleException(AppException ex) {
         return ResponseEntity.status(ex.getHttpStatus())
                 .body(new ErrorDto(ex.getMessage()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorDto> handleValidationExceptions(BindingResult bindingResult) {
+        String errorMessage = ErrorsParsingBindingResult.parseErrors(bindingResult);
+        ErrorDto errorDto = new ErrorDto(errorMessage);
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 }
