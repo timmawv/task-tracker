@@ -39,8 +39,10 @@ public class UserService {
         User user = userMapper.toEntity(signUpDto);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         try {
-
+            User savedUser = userRepository.save(user);
+            return userMapper.toDto(savedUser);
         } catch (DataIntegrityViolationException e) {
+            //todo all exception message move to one place
             throw new AppException("User with such login already exists" , HttpStatus.BAD_REQUEST);
         }
     }
