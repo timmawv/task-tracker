@@ -1,4 +1,4 @@
-package avlyakulov.timur.taskTrackerApi.config;
+package avlyakulov.timur.taskTrackerApi.config.security;
 
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
 import avlyakulov.timur.taskTrackerApi.entity.User;
@@ -57,7 +57,6 @@ public class UserAuthProvider {
 
     public Authentication validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decoded = verifier.verify(token);
         UserDto user = UserDto.builder()
@@ -70,11 +69,8 @@ public class UserAuthProvider {
 
     public Authentication validateTokenStrongly(String token) {
         Algorithm algorithm = Algorithm.HMAC256(secretKey);
-
         JWTVerifier verifier = JWT.require(algorithm).build();
-
         DecodedJWT decoded = verifier.verify(token);
-
         User user = userRepository.findByEmail(decoded.getIssuer())
                 .orElseThrow(() -> new AppException("Unknown user", HttpStatus.NOT_FOUND));
 

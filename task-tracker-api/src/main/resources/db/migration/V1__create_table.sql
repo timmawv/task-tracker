@@ -9,8 +9,11 @@ create table tasks (
     title        varchar not null,
     description  varchar,
     is_completed boolean not null,
+    created_at timestamp,
     finished_at  timestamp,
     user_id      bigint references users (id)
 );
 
 create index index_user_email on users (email);
+
+-- insert into users(email, password) values ('rrggo76@gmail.com', '123')

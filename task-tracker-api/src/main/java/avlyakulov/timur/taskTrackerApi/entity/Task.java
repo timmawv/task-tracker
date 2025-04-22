@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "tasks")
 @Getter
@@ -16,12 +18,21 @@ import lombok.Setter;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @NotNull
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String title;
 
     private String description;
+
+    private Boolean isCompleted;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime finishedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    private User owner;
 }

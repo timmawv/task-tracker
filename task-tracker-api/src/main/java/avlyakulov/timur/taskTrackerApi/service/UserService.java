@@ -1,0 +1,47 @@
+package avlyakulov.timur.taskTrackerApi.service;
+
+import avlyakulov.timur.taskTrackerApi.dto.SignInDto;
+import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
+import avlyakulov.timur.taskTrackerApi.dto.UserDto;
+import avlyakulov.timur.taskTrackerApi.entity.User;
+import avlyakulov.timur.taskTrackerApi.exception.AppException;
+import avlyakulov.timur.taskTrackerApi.mapper.UserMapper;
+import avlyakulov.timur.taskTrackerApi.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UserService {
+
+    private final UserMapper userMapper;
+
+    private final UserRepository userRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public UserDto login(SignInDto signInDto) {
+        User user = userRepository.findByEmail(signInDto.getEmail())
+                .orElseThrow(() -> new AppException("Login or password isn't correct", HttpStatus.BAD_REQUEST));
+
+        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword()))
+            return userMapper.toDto(user);
+
+        throw new AppException("Login or password isn't correct", HttpStatus.BAD_REQUEST);
+    }
+
+    public UserDto register(SignUpDto signUpDto) {
+        User user = userMapper.toEntity(signUpDto);
+        user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+        try {
+
+        } catch (DataIntegrityViolationException e) {
+            throw new AppException("User with such login already exists" , HttpStatus.BAD_REQUEST);
+        }
+    }
+}
