@@ -16,7 +16,6 @@ import {BlocksModule} from './blocks/blocks.module';
   imports: [
     BrowserModule,
     RouterOutlet,
-    RouterLink,
     AppRoutingModule,
     AuthModule,
     BlocksModule
