@@ -50,17 +50,19 @@ export class AuthService implements HttpInterceptor {
         }
       });
     }
+
+    //todo пересмотреть это взаимодействие
     return next.handle(modifiedReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error.status);
         if (error.status === 401) {
-          console.error('Ошибка 401: Неавторизованый доступ, удаления токена');
-          localStorage.removeItem('auth_token');
-          this.router.navigate(['']);
-        } else if (error.status === 403) {
-          console.error('Ошибка 403');
+          console.error('Error 401: Unauthorized access, token removed');
           alert('Your session is finished please log in');
-          this.router.navigate(['']);
+          localStorage.removeItem('auth_token');
+          this.router.navigate(['/login']);
+        } else if (error.status === 403) {
+          console.error('Error 403');
+          alert('Your session is finished please log in');
+          this.router.navigate(['/login']);
         }
         return throwError(() => error);
       })

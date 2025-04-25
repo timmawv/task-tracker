@@ -1,19 +1,19 @@
 <form #f="ngForm" (ngSubmit)="login(f)" class="container m-5 w-25 mx-auto">
 
   <div class="mb-2">
-    <label for="login">Login</label>
-    <input type="text" class="form-control" name="login" ngModel required>
+    <label for="email">Login</label>
+    <input type="text" id="email" class="form-control" name="email" ngModel required>
   </div>
 
   <div class="mb-2">
     <label for="password">Password: </label>
-    <input type="password" class="form-control" name="password" ngModel required>
+    <input type="password" id="password" class="form-control" name="password" ngModel required>
   </div>
 
   <div *ngIf="errorMessage" class="mb-2 alert alert-danger" [innerHtml]="errorMessage"></div>
 
   <div class="mb-2 d-flex justify-content-center">
-    <button type="submit" class="btn btn-primary w-50" [disabled]="f.invalid || loading">
+    <button type="submit" class="btn btn-primary w-50" [disabled] = "f.invalid || loading">
       {{ loading ? 'Download...' : 'Login' }}
     </button>
   </div>
