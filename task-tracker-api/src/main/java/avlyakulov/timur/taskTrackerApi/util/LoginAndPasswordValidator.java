@@ -3,6 +3,7 @@ package avlyakulov.timur.taskTrackerApi.util;
 import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
+import io.micrometer.common.util.StringUtils;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,7 +12,11 @@ import org.springframework.validation.Validator;
 @Component
 public class LoginAndPasswordValidator implements Validator {
 
-    private final String LOGIN_FIELD = "email";
+    private final String LOGIN_FIELD = "login";
+
+    private final String LOGIN_EMAIL_FIELD = "email";
+
+    private final LoginTypeValidatorEnum type = LoginTypeValidatorEnum.EMAIL;
 
     private final String PASSWORD_FIELD = "password";
 
@@ -35,17 +40,14 @@ public class LoginAndPasswordValidator implements Validator {
         String password = signUpDto.getPassword();
         String confirmPassword = signUpDto.getConfirmPassword();
 
-        if (login.isBlank()) {
+        if (StringUtils.isBlank(login)) {
             rejectValue(LOGIN_FIELD, "Your login can't be null or empty. Enter valid login", errors);
             return;
         }
 
-//        if (login.matches(emailRegex))
-//            return;
-
-        if (login.contains("@") && !login.matches(emailRegex)) {
-            rejectValue(LOGIN_FIELD, "Your email isn't valid. Please enter valid email", errors);
-            return;
+        switch (type) {
+            case LOGIN -> validateLoginAsLogin(login, errors);
+            case EMAIL -> validateLoginAsEmail(login, errors);
         }
 
         if (login.length() < 2 || login.length() > 16) {
@@ -73,6 +75,16 @@ public class LoginAndPasswordValidator implements Validator {
         }
         if (!password.equals(confirmPassword))
             rejectValue(CONFIRM_PASSWORD_FIELD, "The passwords aren't same. Please enter the same passwords", errors);
+    }
+
+    private void validateLoginAsLogin(String login, Errors errors) {
+        if (login.contains("@") && !login.matches(emailRegex))
+            rejectValue(LOGIN_FIELD, "Your email isn't valid. Please enter valid email", errors);
+    }
+
+    private void validateLoginAsEmail(String login, Errors errors) {
+        if (!login.matches(emailRegex))
+            rejectValue(LOGIN_FIELD, "Your email isn't valid. Please enter valid email", errors);
     }
 
     private void rejectValue(String nameField, String message, Errors errors) {

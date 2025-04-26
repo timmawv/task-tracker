@@ -37,7 +37,6 @@ public class AuthController {
         loginAndPasswordValidator.validate(signUpDto, bindingResult);
         ErrorsParsingBindingResult.checkErrors(bindingResult);
         UserDto userDto = userService.register(signUpDto);
-        userDto.setToken(userAuthProvider.createToken(userDto));
         return ResponseEntity.created(URI.create("/users/" + userDto.getId())).body(userDto);
     }
 }
