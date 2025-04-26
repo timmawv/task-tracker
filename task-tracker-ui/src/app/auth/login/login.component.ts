@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
 
@@ -11,7 +11,7 @@ import {AuthService} from '../../services/auth.service';
 export class LoginComponent {
 
   loading: boolean = false;
-  @Input() errorMessage: string = "";
+  errorMessage: string = "";
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }

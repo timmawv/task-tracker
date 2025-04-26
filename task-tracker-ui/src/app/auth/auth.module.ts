@@ -4,16 +4,20 @@ import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { RegisterSuccessComponent } from './register-success/register-success.component';
+import {RouterLink} from '@angular/router';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    RegisterSuccessComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterLink
   ],
   exports: [
     LoginComponent,
