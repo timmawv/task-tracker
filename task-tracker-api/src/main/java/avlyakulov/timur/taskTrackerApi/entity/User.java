@@ -26,4 +26,8 @@ public class User {
     @NotNull
     @Column(nullable = false)
     private String password;
+
+    public User(Long id) {
+        this.id = id;
+    }
 }

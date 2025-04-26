@@ -10,6 +10,7 @@ import avlyakulov.timur.taskTrackerApi.util.LoginAndPasswordValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ public class AuthController {
     private final UserService userService;
     private final UserAuthProvider userAuthProvider;
     private final LoginAndPasswordValidator loginAndPasswordValidator;
+    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody @Valid SignInDto signInDto) {
@@ -37,6 +39,7 @@ public class AuthController {
         loginAndPasswordValidator.validate(signUpDto, bindingResult);
         ErrorsParsingBindingResult.checkErrors(bindingResult);
         UserDto userDto = userService.register(signUpDto);
+        //todo пересмотреть возврат этого метода
         return ResponseEntity.created(URI.create("/users/" + userDto.getId())).body(userDto);
     }
 }

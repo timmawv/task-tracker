@@ -1,11 +1,14 @@
 package avlyakulov.timur.taskTrackerApi.entity;
 
+import avlyakulov.timur.taskTrackerApi.util.TaskState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.dialect.PostgreSQLEnumJdbcType;
 
 import java.time.LocalDateTime;
 
@@ -26,8 +29,15 @@ public class Task {
 
     private String description;
 
+    @Column(nullable = false)
     private Boolean isCompleted;
 
+    @Column(name = "state", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcType(PostgreSQLEnumJdbcType.class)
+    private TaskState taskState;
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime finishedAt;

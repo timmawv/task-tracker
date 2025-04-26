@@ -1,0 +1,38 @@
+package avlyakulov.timur.taskTrackerApi.service;
+
+import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
+import avlyakulov.timur.taskTrackerApi.entity.Task;
+import avlyakulov.timur.taskTrackerApi.entity.User;
+import avlyakulov.timur.taskTrackerApi.mapper.TaskMapper;
+import avlyakulov.timur.taskTrackerApi.repository.TaskRepository;
+import avlyakulov.timur.taskTrackerApi.util.TaskState;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class TaskService {
+
+    private final TaskRepository taskRepository;
+
+    private final TaskMapper taskMapper;
+
+    public List<TaskDto> findTasksByUserId(Long userId) {
+        return taskMapper.toListDto(taskRepository.findAllByUserId(userId));
+    }
+
+    public TaskDto createTaskByUserId(TaskDto taskDto, Long userId) {
+        Task task = taskMapper.toEntity(taskDto);
+        task.setId(UUID.randomUUID().toString());
+        task.setCreatedAt(LocalDateTime.now());
+        task.setTaskState(TaskState.NOT_STARTED);
+        task.setIsCompleted(false);
+        task.setOwner(new User(userId));
+        taskRepository.save(task);
+        return taskMapper.toDto(task);
+    }
+}

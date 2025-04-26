@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Collections;
 
@@ -29,8 +30,6 @@ public class UserAuthProvider {
 
     @Value("${security.jwt.token.secret-key}")
     private String secretKey;
-
-    private final String UTC_TIMEZONE = "UTC";
 
     private final UserRepository userRepository;
 
@@ -42,15 +41,13 @@ public class UserAuthProvider {
     }
 
     public String createToken(UserDto userDto) {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime validity = now.plusHours(1L);
-        Instant instantUTC = now.atZone(ZoneId.of(UTC_TIMEZONE)).toInstant();
-        Instant validityUTC = validity.atZone(ZoneId.of(UTC_TIMEZONE)).toInstant();
+        Instant issuedAt = Instant.now();
+        Instant expiresAt = Instant.now().plus(1L, ChronoUnit.HOURS);
 
         return JWT.create()
                 .withIssuer(userDto.getEmail())
-                .withIssuedAt(instantUTC)
-                .withExpiresAt(validityUTC)
+                .withIssuedAt(issuedAt)
+                .withExpiresAt(expiresAt)
                 .withClaim("id", userDto.getId())
                 .sign(Algorithm.HMAC256(secretKey));
     }

@@ -4,10 +4,13 @@ create table users (
     password varchar        not null
 );
 
+create type task_state as enum('NOT_STARTED', 'IN_PROGRESS', 'FINISHED', 'DELETED');
+
 create table tasks (
     id           varchar primary key,
     title        varchar not null,
     description  varchar,
+    state task_state not null,
     is_completed boolean not null,
     created_at timestamp,
     finished_at  timestamp,
@@ -16,4 +19,4 @@ create table tasks (
 
 create index index_user_email on users (email);
 
--- insert into users(email, password) values ('rrggo76@gmail.com', '123')
+insert into users(email, password) values ('timur@gmail.com', '$2a$10$.5mTYBHWfWKojGDR7IVylOEBc0sGvvQVpN/8.jcC8UJ9nUbz6MU4q');
