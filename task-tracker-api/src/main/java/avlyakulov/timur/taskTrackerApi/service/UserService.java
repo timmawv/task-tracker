@@ -5,6 +5,7 @@ import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
 import avlyakulov.timur.taskTrackerApi.entity.User;
 import avlyakulov.timur.taskTrackerApi.exception.AppException;
+import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
 import avlyakulov.timur.taskTrackerApi.mapper.UserMapper;
 import avlyakulov.timur.taskTrackerApi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,12 +28,12 @@ public class UserService {
 
     public UserDto login(SignInDto signInDto) {
         User user = userRepository.findByEmail(signInDto.getEmail())
-                .orElseThrow(() -> new AppException("Login or password isn't correct", HttpStatus.BAD_REQUEST));
+                .orElseThrow(() -> new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST));
 
         if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword()))
             return userMapper.toDto(user);
 
-        throw new AppException("Login or password isn't correct", HttpStatus.BAD_REQUEST);
+        throw new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST);
     }
 
     public UserDto register(SignUpDto signUpDto) {
@@ -42,8 +43,7 @@ public class UserService {
             User savedUser = userRepository.save(user);
             return userMapper.toDto(savedUser);
         } catch (DataIntegrityViolationException e) {
-            //todo all exception message move to one place
-            throw new AppException("User with such login already exists" , HttpStatus.BAD_REQUEST);
+            throw new AppException(AppExceptionMessage.USER_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
         }
     }
 }

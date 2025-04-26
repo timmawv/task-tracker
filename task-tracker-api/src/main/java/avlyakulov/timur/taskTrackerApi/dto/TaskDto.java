@@ -2,6 +2,7 @@ package avlyakulov.timur.taskTrackerApi.dto;
 
 import avlyakulov.timur.taskTrackerApi.util.TaskState;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,7 @@ public class TaskDto {
 
     private String id;
 
+    @NotEmpty(message = "Field title can't be null or empty")
     private String title;
 
     private String description;

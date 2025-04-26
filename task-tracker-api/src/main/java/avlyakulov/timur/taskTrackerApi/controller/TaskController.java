@@ -3,6 +3,7 @@ package avlyakulov.timur.taskTrackerApi.controller;
 import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
 import avlyakulov.timur.taskTrackerApi.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,7 +25,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
+    public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
         TaskDto taskByUserId = taskService.createTaskByUserId(taskDto, userDto.getId());
         return ResponseEntity.ok(taskByUserId);
     }
