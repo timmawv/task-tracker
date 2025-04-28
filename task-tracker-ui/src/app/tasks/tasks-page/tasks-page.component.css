@@ -1,0 +1,26 @@
+.task_body {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.task_state {
+  margin-top: 20px;
+  flex: 1;
+  text-align: center;
+}
+
+.task_state.not_started {
+  border-radius: 15px;
+  border: 2px solid darkgrey;
+}
+
+.task_state.in_progress {
+  border-radius: 15px;
+  border: 2px solid blue;
+}
+
+.task_state.finished {
+  border-radius: 15px;
+  border: 2px solid lightgreen;
+}
