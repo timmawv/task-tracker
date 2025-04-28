@@ -16,3 +16,33 @@ html, body {
 main {
   flex-grow: 1;
 }
+
+/* Затемнение фона + центрирование */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.7); /* Полупрозрачный белый фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+/* Круглый крутящийся спиннер */
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 8px solid #ccc;
+  border-top: 8px solid #1d72b8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Анимация кручения */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

@@ -10,6 +10,8 @@ import {AuthModule} from './auth/auth.module';
 import {BlocksModule} from './blocks/blocks.module';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
 import {TasksModule} from './tasks/tasks.module';
+import {LoaderInterceptor} from './interceptors/load.interceptor';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -21,11 +23,13 @@ import {TasksModule} from './tasks/tasks.module';
     AppRoutingModule,
     AuthModule,
     BlocksModule,
-    TasksModule
+    TasksModule,
+    BrowserAnimationsModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthService, multi: true},
-    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
