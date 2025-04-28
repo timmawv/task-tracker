@@ -4,11 +4,13 @@ import {LoginComponent} from './auth/login/login.component';
 import {RegisterComponent} from './auth/register/register.component';
 import {MainPageComponent} from './blocks/main-page/main-page.component';
 import {NotFoundComponent} from './blocks/not-found/not-found.component';
+import {TasksPageComponent} from './tasks/tasks-page/tasks-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
+  { path: 'tasks', component: TasksPageComponent},
   { path: '**', component: NotFoundComponent},
 ];
 

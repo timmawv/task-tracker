@@ -9,6 +9,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {AuthModule} from './auth/auth.module';
 import {BlocksModule} from './blocks/blocks.module';
 import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
+import {TasksModule} from './tasks/tasks.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpErrorInterceptor} from './interceptors/http-error.interceptor';
     RouterOutlet,
     AppRoutingModule,
     AuthModule,
-    BlocksModule
+    BlocksModule,
+    TasksModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthService, multi: true},

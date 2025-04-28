@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent {
   loading: boolean = false;
   errorMessage: string = "";
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
   }
 
   login(form: any) {
@@ -27,9 +28,10 @@ export class LoginComponent {
           next: (response: any) => {
             this.errorMessage = "";
             this.loading = false;
-            const token = response.message;
+            const token = response.token;
             localStorage.setItem('auth_token', token);
             this.authService.login();
+            this.router.navigate(['/tasks']);
           },
           error: (error) => {
             this.errorMessage = error.message;

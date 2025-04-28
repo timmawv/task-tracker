@@ -46,26 +46,10 @@ export class AuthService implements HttpInterceptor {
     if (authToken) {
       modifiedReq = req.clone({
         setHeaders: {
-          Authorization: `${authToken}`
+          Authorization: `Bearer ${authToken}`
         }
       });
     }
-
-    //todo пересмотреть это взаимодействие
-    return next.handle(modifiedReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        if (error.status === 401) {
-          console.error('Error 401: Unauthorized access, token removed');
-          alert('Your session is finished please log in');
-          localStorage.removeItem('auth_token');
-          this.router.navigate(['/login']);
-        } else if (error.status === 403) {
-          console.error('Error 403');
-          alert('Your session is finished please log in');
-          this.router.navigate(['/login']);
-        }
-        return throwError(() => error);
-      })
-    );
+    return next.handle(modifiedReq);
   }
 }
