@@ -2,11 +2,7 @@
   <app-header></app-header>
 
   <main class="main container">
-    <div *ngIf="isLoading$ | async"
-         @fadeAnimation
-         class="overlay">
-      <div class="spinner"></div>
-    </div>
+    <app-loading></app-loading>
     <router-outlet></router-outlet>
   </main>
 
