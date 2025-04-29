@@ -12,7 +12,7 @@ import org.springframework.validation.Validator;
 @Component
 public class LoginAndPasswordValidator implements Validator {
 
-    private final String LOGIN_FIELD = "login";
+    private final String LOGIN_FIELD = "email";
 
     private final String LOGIN_EMAIL_FIELD = "email";
 
@@ -46,8 +46,14 @@ public class LoginAndPasswordValidator implements Validator {
         }
 
         switch (type) {
-            case LOGIN -> validateLoginAsLogin(login, errors);
-            case EMAIL -> validateLoginAsEmail(login, errors);
+            case LOGIN -> {
+                validateLoginAsLogin(login, errors);
+                return;
+            }
+            case EMAIL -> {
+                validateLoginAsEmail(login, errors);
+                return;
+            }
         }
 
         if (login.length() < 2 || login.length() > 16) {
