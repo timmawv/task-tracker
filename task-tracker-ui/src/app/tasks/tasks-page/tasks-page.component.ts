@@ -32,7 +32,7 @@ export class TasksPageComponent implements OnInit {
     );
 
     this.finishedTasks$ = this.tasks$.pipe(
-      map(tasks => tasks.filter(task => TaskState.FINISHED))
+      map(tasks => tasks.filter(task => task.taskState === TaskState.FINISHED))
     );
   }
 }
