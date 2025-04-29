@@ -1,27 +1,28 @@
 <h2>Список задач</h2>
-<div class="task_body">
-  <div class="task_state not_started">
-    <h1>Not started</h1>
-    <div *ngFor="let task of notStartedTasks$ | async">
+<div class="task_page">
+  <div class="task_column not_started">
+    <h2>Not started</h2>
+    <div class="task" *ngFor="let task of notStartedTasks$ | async">
       <div>
-        <h1>{{task.title}}</h1>
+        <label class="checkbox-container">
+          <input type="checkbox">
+          <span class="custom-checkbox"></span>
+        </label>
+        <h3>{{ task.title }}</h3>
+        <h4>{{ task.description }}</h4>
       </div>
     </div>
   </div>
-  <div class="task_state in_progress">
-    <h1>In progress</h1>
+  <div class="task_column in_progress">
+    <h2>In progress</h2>
     <div *ngFor="let task of inProgressTasks$ | async">
-      <div>
-        <h1>{{task.title}}</h1>
-      </div>
+      <h3>{{ task.title }}</h3>
     </div>
   </div>
-  <div class="task_state finished">
-    <h1>Finished</h1>
+  <div class="task_column finished">
+    <h2>Finished</h2>
     <div *ngFor="let task of finishedTasks$ | async">
-      <div>
-        <h1>{{task.title}}</h1>
-      </div>
+      <h3>{{ task.title }}</h3>
     </div>
   </div>
 </div>
