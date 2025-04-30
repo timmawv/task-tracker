@@ -8,6 +8,11 @@
   margin-top: 20px;
   flex: 1;
   padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  min-height: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2ms ease;
 }
 
 .tasks {
@@ -17,6 +22,9 @@
   margin-bottom: 15px;
   align-items: center;
   padding: 10px;
+  transition: transform 0.2ms cubic-bezier(0.22, 1, 0.36, 1),
+  box-shadow 0.2ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
 }
 
 .task {
@@ -107,4 +115,54 @@
 
 .sign_create {
   margin-left: 15px;
+}
+
+/* Плавное перемещение самого drag элемента */
+.cdk-drag {
+  transition: transform 0.2ms ease-in-out;
+  will-change: transform;
+  cursor: grab;
+}
+
+.cdk-drag:active {
+  cursor: grabbing;
+}
+
+/* Стиль preview — копии элемента при перетаскивании */
+.cdk-drag-preview {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  transition: box-shadow 0.2ms ease, transform 0.2ms ease;
+  border-radius: 10px;
+  background: white;
+  padding: 10px;
+  transform: scale(1.05);
+  opacity: 0.95;
+}
+
+/* Placeholder теперь занимает место перетаскиваемого элемента */
+.cdk-drag-placeholder {
+  background: transparent;
+  border: 2px dashed #bbb;
+  border-radius: 10px;
+  min-height: 60px;
+  margin-bottom: 10px;
+  opacity: 0.4;
+  transition: all 0.2ms ease;
+}
+
+/* Зона дропа подсвечивается при наведении */
+.task_column.cdk-drop-list-dragging-over {
+  background-color: #e0f7fa;
+  border: 2px dashed #26a69a;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.tasks:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cdk-drag:active {
+  transform: scale(0.98);
 }
