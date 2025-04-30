@@ -1,28 +1,73 @@
 <h2>Список задач</h2>
 <div class="task_page">
-  <div class="task_column not_started">
+
+  <div cdkDropList
+       [cdkDropListData]="(notStartedTasks$ | async) || []"
+       [cdkDropListConnectedTo]="['inProgress', 'finished']"
+       (cdkDropListDropped)="onDrop($event, TaskState.NOT_STARTED)"
+       class="task_column not_started"
+       id="notStarted"
+  >
     <h2>Not started</h2>
-    <div class="task" *ngFor="let task of notStartedTasks$ | async">
-      <div>
+    <div class="tasks" *ngFor="let task of notStartedTasks$ | async" cdkDrag>
+      <div class="task">
         <label class="checkbox-container">
           <input type="checkbox">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
-        <h4>{{ task.description }}</h4>
+        <h4 class="sing_bottom">{{ task.description }}</h4>
       </div>
     </div>
-  </div>
-  <div class="task_column in_progress">
-    <h2>In progress</h2>
-    <div *ngFor="let task of inProgressTasks$ | async">
-      <h3>{{ task.title }}</h3>
+    <div class="task_create">
+      <button class="add-button">+</button>
+      <h3 class="sign_create">Create task</h3>
     </div>
   </div>
-  <div class="task_column finished">
+
+  <div cdkDropList
+       [cdkDropListData]="(inProgressTasks$ | async) || []"
+       [cdkDropListConnectedTo]="['notStarted', 'finished']"
+       (cdkDropListDropped)="onDrop($event, TaskState.IN_PROGRESS)"
+       class="task_column in_progress"
+       id="inProgress">
+    <h2>In progress</h2>
+    <div class="tasks" *ngFor="let task of inProgressTasks$ | async" cdkDrag>
+      <div class="task">
+        <label class="checkbox-container">
+          <input type="checkbox">
+          <span class="custom-checkbox"></span>
+        </label>
+        <h3>{{ task.title }}</h3>
+        <h4 class="sing_bottom">{{ task.description }}</h4>
+      </div>
+    </div>
+    <div class="task_create">
+      <button class="add-button">+</button>
+      <h3 class="sign_create">Create task</h3>
+    </div>
+  </div>
+
+  <div cdkDropList
+       [cdkDropListData]="(finishedTasks$ | async) || []"
+       [cdkDropListConnectedTo]="['notStarted', 'inProgress']"
+       (cdkDropListDropped)="onDrop($event, TaskState.FINISHED)"
+       class="task_column finished"
+       id="finished">
     <h2>Finished</h2>
-    <div *ngFor="let task of finishedTasks$ | async">
-      <h3>{{ task.title }}</h3>
+    <div class="tasks" *ngFor="let task of finishedTasks$ | async" cdkDrag>
+      <div class="task">
+        <label class="checkbox-container">
+          <input type="checkbox">
+          <span class="custom-checkbox"></span>
+        </label>
+        <h3>{{ task.title }}</h3>
+        <h4 class="sing_bottom">{{ task.description }}</h4>
+      </div>
+    </div>
+    <div class="task_create">
+      <button class="add-button">+</button>
+      <h3 class="sign_create">Create task</h3>
     </div>
   </div>
 </div>

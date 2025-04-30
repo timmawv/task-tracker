@@ -10,28 +10,28 @@
   padding: 10px;
 }
 
-.task_column.not_started {
-  border-radius: 15px;
-  border: 2px solid darkgrey;
-}
-
-.task_column.in_progress {
-  border-radius: 15px;
-  border: 2px solid blue;
-}
-
-.task_column.finished {
-  border-radius: 15px;
-  border: 2px solid lightgreen;
-}
-
-.task {
+.tasks {
   display: flex;
   border: 2px solid black;
   border-radius: 10px;
   margin-bottom: 15px;
   align-items: center;
   padding: 10px;
+}
+
+.task {
+  display: grid;
+  grid-template-columns: auto 1fr;
+}
+
+.sing_bottom {
+  grid-column: span 2;
+}
+
+.task_create {
+  display: flex;
+  text-align: center;
+  align-content: center;
 }
 
 .checkbox-container {
@@ -81,4 +81,30 @@
 .checkbox-container input:checked + .custom-checkbox::after {
   transform: rotate(45deg) scale(1);
   opacity: 1;
+}
+
+.add-button {
+  font-size: 20px;
+  color: white;
+  background-color: #4caf50;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.add-button:hover {
+  background-color: #45a049;
+  transform: scale(1.1);
+}
+
+.add-button:active {
+  transform: scale(0.95);
+}
+
+.sign_create {
+  margin-left: 15px;
 }
