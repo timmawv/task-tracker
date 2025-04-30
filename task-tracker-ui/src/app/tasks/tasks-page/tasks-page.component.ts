@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TaskService} from '../../services/task.service';
-import {map, Observable} from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 import {Task} from '../../../shared/models/Task';
 import {TaskState} from '../../../shared/models/TaskState';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -13,7 +13,8 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 })
 export class TasksPageComponent implements OnInit {
 
-  tasks$!: Observable<Task[]>;
+  private tasksSubject = new BehaviorSubject<Task[]>([]);
+  tasks$ = this.tasksSubject.asObservable();
   notStartedTasks$!: Observable<Task[]>;
   inProgressTasks$!: Observable<Task[]>;
   finishedTasks$!: Observable<Task[]>;
@@ -23,7 +24,7 @@ export class TasksPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tasks$ = this.taskService.getTasks();
+    this.taskService.getTasks().subscribe(tasks => this.tasksSubject.next(tasks));
 
     this.notStartedTasks$ = this.tasks$.pipe(
       map(tasks => tasks.filter(task => task.taskState === TaskState.NOT_STARTED))
@@ -54,13 +55,13 @@ export class TasksPageComponent implements OnInit {
 
       // Обновляем состояние задачи на бекенде
       this.taskService.updateTaskState(movedTask.id, taskState).subscribe({
-        next: () => console.log('Task updated!'),
+        next: () => {
+          movedTask.taskState = taskState;
+          const currentTasks = this.tasksSubject.value;
+          this.tasksSubject.next([...currentTasks]);
+        },
         error: (error) => console.error('Failed to update task', error)
       });
-
-      // Также локально меняем состояние в объекте
-      movedTask.taskState = taskState;
     }
-
   }
 }

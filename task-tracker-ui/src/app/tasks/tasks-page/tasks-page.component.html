@@ -6,8 +6,7 @@
        [cdkDropListConnectedTo]="['inProgress', 'finished']"
        (cdkDropListDropped)="onDrop($event, TaskState.NOT_STARTED)"
        class="task_column not_started"
-       id="notStarted"
-  >
+       id="notStarted">
     <h2>Not started</h2>
     <div class="tasks" *ngFor="let task of notStartedTasks$ | async" cdkDrag>
       <div class="task">
