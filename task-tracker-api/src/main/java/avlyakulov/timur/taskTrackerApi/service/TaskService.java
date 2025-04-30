@@ -8,6 +8,7 @@ import avlyakulov.timur.taskTrackerApi.repository.TaskRepository;
 import avlyakulov.timur.taskTrackerApi.util.TaskState;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,5 +35,10 @@ public class TaskService {
         task.setOwner(new User(userId));
         taskRepository.save(task);
         return taskMapper.toDto(task);
+    }
+
+    @Transactional
+    public void updateTaskState(Long userId, String taskId, TaskState taskState) {
+        taskRepository.updateTaskState(userId, taskId, taskState);
     }
 }

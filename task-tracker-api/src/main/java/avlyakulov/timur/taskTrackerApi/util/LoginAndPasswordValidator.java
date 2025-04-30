@@ -46,14 +46,8 @@ public class LoginAndPasswordValidator implements Validator {
         }
 
         switch (type) {
-            case LOGIN -> {
-                validateLoginAsLogin(login, errors);
-                return;
-            }
-            case EMAIL -> {
-                validateLoginAsEmail(login, errors);
-                return;
-            }
+            case LOGIN -> validateLoginAsLogin(login, errors);
+            case EMAIL -> validateLoginAsEmail(login, errors);
         }
 
         if (login.length() < 2 || login.length() > 16) {
