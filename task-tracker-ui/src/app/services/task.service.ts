@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Task} from '../../shared/models/Task';
 import {TaskState} from '../../shared/models/TaskState';
 import {BaseService} from './base.service';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,18 @@ export class TaskService extends BaseService {
     return this.http.get<Task[]>(this.apiUrl);
   }
 
-  public updateTaskState(id: string, taskState: TaskState) {
+  public createTask(payload: any) {
+    const headers = this.getStandardHeaders();
+    const params = this.getStandardParameters();
+
+    return this.http.post<Task>(this.apiUrl, payload, {headers, params});
+  }
+
+  public deleteTask(taskId: string) {
+    return this.http.delete(this.apiUrl.concat("/".concat(taskId)));
+  }
+
+  public updateTaskState(taskId: string, taskState: TaskState) {
     const headers = this.getStandardHeaders();
     const params = this.getStandardParameters();
 
@@ -27,6 +39,6 @@ export class TaskService extends BaseService {
       taskState: taskState
     }
 
-    return this.http.patch(this.apiUrl.concat("/".concat(id)), payload, {headers, params});
+    return this.http.patch(this.apiUrl.concat("/".concat(taskId)), payload, {headers, params});
   }
 }

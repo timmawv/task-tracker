@@ -1,5 +1,39 @@
-<h2>Список задач</h2>
+<h2>List Tasks</h2>
 <div class="task_page">
+
+  <ng-template #template>
+    <div class="modal-header d-flex justify-content-between">
+      <!-- Modal Title  -->
+      <h4 class="modal-title pull-left">Task</h4>
+      <!-- Close Button  -->
+      <button type="button" class="btn btn-secondary" (click)="hideModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="modal-body container">Create your task</div>
+
+
+    <form class="container p-5" [formGroup]="createTaskForm" (ngSubmit)="$event.preventDefault(); sendCreateTaskForm()">
+
+      <div class="mb-3">
+        <label class="form-label">Title of the task</label>
+        <input type="text" class="form-control" formControlName="title" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description of the task</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+
+      <div *ngIf="errorMessage" class="mb-2 alert alert-danger" [innerHtml]="errorMessage"></div>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Create task</button>
+      </div>
+
+    </form>
+  </ng-template>
 
   <div cdkDropList
        [cdkDropListData]="(notStartedTasks$ | async) || []"
@@ -11,7 +45,7 @@
     <div class="tasks" *ngFor="let task of notStartedTasks$ | async" cdkDrag>
       <div class="task">
         <label class="checkbox-container">
-          <input type="checkbox">
+          <input type="checkbox" (change)="deleteTask(task.id)">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
@@ -19,7 +53,7 @@
       </div>
     </div>
     <div class="task_create">
-      <button class="add-button">+</button>
+      <button class="add-button" (click)="openModal(template)">+</button>
       <h3 class="sign_create">Create task</h3>
     </div>
   </div>
@@ -41,10 +75,6 @@
         <h4 class="sing_bottom">{{ task.description }}</h4>
       </div>
     </div>
-    <div class="task_create">
-      <button class="add-button">+</button>
-      <h3 class="sign_create">Create task</h3>
-    </div>
   </div>
 
   <div cdkDropList
@@ -63,10 +93,6 @@
         <h3>{{ task.title }}</h3>
         <h4 class="sing_bottom">{{ task.description }}</h4>
       </div>
-    </div>
-    <div class="task_create">
-      <button class="add-button">+</button>
-      <h3 class="sign_create">Create task</h3>
     </div>
   </div>
 </div>
