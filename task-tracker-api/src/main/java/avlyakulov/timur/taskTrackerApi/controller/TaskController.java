@@ -4,6 +4,7 @@ import avlyakulov.timur.taskTrackerApi.dto.AppMessageDto;
 import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
 import avlyakulov.timur.taskTrackerApi.dto.TaskUpdateStateDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
+import avlyakulov.timur.taskTrackerApi.entity.Task;
 import avlyakulov.timur.taskTrackerApi.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +30,14 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
-        TaskDto taskByUserId = taskService.createTaskByUserId(taskDto, userDto.getId());
-        return ResponseEntity.ok(taskByUserId);
+        TaskDto taskResponse = taskService.createTaskByUserId(taskDto, userDto.getId());
+        return ResponseEntity.ok(taskResponse);
+    }
+
+    @PutMapping
+    public ResponseEntity<TaskDto> updateTask(@RequestBody @Valid TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
+        TaskDto updatedTask = taskService.updateTask(taskDto, userDto.getId());
+        return ResponseEntity.ok(updatedTask);
     }
 
     @PatchMapping("/{taskId}")

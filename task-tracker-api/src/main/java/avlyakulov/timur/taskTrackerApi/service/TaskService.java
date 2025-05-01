@@ -3,15 +3,20 @@ package avlyakulov.timur.taskTrackerApi.service;
 import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
 import avlyakulov.timur.taskTrackerApi.entity.Task;
 import avlyakulov.timur.taskTrackerApi.entity.User;
+import avlyakulov.timur.taskTrackerApi.exception.AppException;
+import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
 import avlyakulov.timur.taskTrackerApi.mapper.TaskMapper;
 import avlyakulov.timur.taskTrackerApi.repository.TaskRepository;
 import avlyakulov.timur.taskTrackerApi.util.TaskState;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -35,6 +40,19 @@ public class TaskService {
         task.setOwner(new User(userId));
         taskRepository.save(task);
         return taskMapper.toDto(task);
+    }
+
+    @Transactional
+    public TaskDto updateTask(TaskDto taskDto, Long userId) {
+        Optional<Task> task = taskRepository.findById(taskDto.getId());
+        Task updatedTask = task
+                .map(t -> {
+                    t.setTitle(taskDto.getTitle());
+                    t.setDescription(taskDto.getDescription());
+                    return t;
+                })
+                .orElseThrow(() -> new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND));
+        return taskMapper.toDto(taskRepository.save(updatedTask));
     }
 
     @Transactional

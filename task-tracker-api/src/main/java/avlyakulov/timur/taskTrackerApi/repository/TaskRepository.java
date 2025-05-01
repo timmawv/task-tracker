@@ -16,9 +16,9 @@ public interface TaskRepository extends JpaRepository<Task, String> {
 
     @Modifying
     @Query("update Task t set t.taskState = ?3 where t.owner.id = ?1 and t.id = ?2")
-    Integer updateTaskState(Long userId, String taskId, TaskState taskState);
+    void updateTaskState(Long userId, String taskId, TaskState taskState);
 
     @Modifying
-    @Query(value = "update Task t set t.taskState = 'DELETED', t.finishedAt = CURRENT TIMESTAMP where t.id = ?1")
+    @Query(value = "update Task t set t.taskState = 'DELETED', t.finishedAt = CURRENT TIMESTAMP, t.isCompleted = true where t.id = ?1")
     void deleteTask(String taskId);
 }
