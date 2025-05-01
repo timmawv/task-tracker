@@ -1,7 +1,7 @@
 <h2>List Tasks</h2>
 <div class="task_page">
 
-  <ng-template #template>
+  <ng-template #createTask>
     <div class="modal-header d-flex justify-content-between">
       <!-- Modal Title  -->
       <h4 class="modal-title pull-left">Task</h4>
@@ -11,9 +11,6 @@
       </button>
     </div>
     <!-- Modal Body -->
-    <div class="modal-body container">Create your task</div>
-
-
     <form class="container p-5" [formGroup]="createTaskForm" (ngSubmit)="$event.preventDefault(); sendCreateTaskForm()">
 
       <div class="mb-3">
@@ -35,6 +32,39 @@
     </form>
   </ng-template>
 
+  <ng-template #editTask>
+    <div class="modal-header d-flex justify-content-between">
+      <!-- Modal Title  -->
+      <h4 class="modal-title pull-left">Edit Task</h4>
+      <!-- Close Button  -->
+      <button type="button" class="btn btn-secondary" (click)="hideModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <form class="container p-5" [formGroup]="editTaskForm" (ngSubmit)="$event.preventDefault(); sendEditTaskForm()">
+
+      <input type="hidden" class="form-control" formControlName="id">
+
+      <div class="mb-3">
+        <label class="form-label">Title of the task</label>
+        <input type="text" class="form-control" formControlName="title">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description of the task</label>
+        <input type="text" class="form-control" formControlName="description">
+      </div>
+
+      <div *ngIf="errorMessage" class="mb-2 alert alert-danger" [innerHtml]="errorMessage"></div>
+
+      <div class="mb-3">
+        <button type="submit" class="btn btn-primary">Edit task</button>
+      </div>
+
+    </form>
+  </ng-template>
+
   <div cdkDropList
        [cdkDropListData]="(notStartedTasks$ | async) || []"
        [cdkDropListConnectedTo]="['inProgress', 'finished']"
@@ -43,17 +73,18 @@
        id="notStarted">
     <h2>Not started</h2>
     <div class="tasks" *ngFor="let task of notStartedTasks$ | async" cdkDrag>
-      <div class="task">
+      <div class="task_header">
         <label class="checkbox-container">
           <input type="checkbox" (change)="deleteTask(task.id)">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
-        <h4 class="sing_bottom">{{ task.description }}</h4>
       </div>
+        <h4 class="sing_bottom">{{ task.description }}</h4>
+        <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
     </div>
     <div class="task_create">
-      <button class="add-button" (click)="openModal(template)">+</button>
+      <button class="add-button" (click)="openModal(createTask)">+</button>
       <h3 class="sign_create">Create task</h3>
     </div>
   </div>
@@ -66,14 +97,13 @@
        id="inProgress">
     <h2>In progress</h2>
     <div class="tasks" *ngFor="let task of inProgressTasks$ | async" cdkDrag>
-      <div class="task">
         <label class="checkbox-container">
           <input type="checkbox">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
         <h4 class="sing_bottom">{{ task.description }}</h4>
-      </div>
+      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
     </div>
   </div>
 
@@ -85,15 +115,14 @@
        id="finished">
     <h2>Finished</h2>
     <div class="tasks" *ngFor="let task of finishedTasks$ | async" cdkDrag>
-      <div class="task">
         <label class="checkbox-container">
           <input type="checkbox">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
         <h4 class="sing_bottom">{{ task.description }}</h4>
+      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
       </div>
-    </div>
   </div>
 </div>
 

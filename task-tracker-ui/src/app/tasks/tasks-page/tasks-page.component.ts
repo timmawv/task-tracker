@@ -45,8 +45,39 @@ export class TasksPageComponent implements OnInit {
     })
   }
 
+  sendEditTaskForm() {
+    const payload = {
+      id: this.editTaskForm.value.id,
+      title: this.editTaskForm.value.title,
+      description: this.editTaskForm.value.description
+    }
+
+    this.taskService.editTask(payload).subscribe({
+      next: (updatedTask: Task) => {
+        const currentTasks = this.tasksSubject.getValue();
+        const updatedTasks = currentTasks.map(task =>
+          task.id === updatedTask.id ? updatedTask : task
+        );
+        this.tasksSubject.next(updatedTasks);
+        this.hideModal();
+      },
+      error: (error) => {
+        this.errorMessage = error.message;
+      }
+    })
+  }
+
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  openModalEditTask(template: TemplateRef<any>, task: Task) {
+    this.modalRef = this.modalService.show(template);
+    this.editTaskForm.patchValue({
+      id: task.id,
+      title: task.title,
+      description: task.description
+    });
   }
 
   hideModal() {
@@ -57,6 +88,12 @@ export class TasksPageComponent implements OnInit {
   modalRef!: BsModalRef;
 
   createTaskForm = new FormGroup({
+    title: new FormControl(''),
+    description: new FormControl('')
+  });
+
+  editTaskForm = new FormGroup({
+    id: new FormControl(''),
     title: new FormControl(''),
     description: new FormControl('')
   });
