@@ -5,8 +5,6 @@ import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
 import avlyakulov.timur.taskTrackerApi.dto.TaskUpdateStateDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
 import avlyakulov.timur.taskTrackerApi.service.TaskService;
-import avlyakulov.timur.taskTrackerApi.util.TaskState;
-import ch.qos.logback.core.model.AppenderModel;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,5 +37,11 @@ public class TaskController {
     public ResponseEntity<AppMessageDto> updateTaskState(@RequestBody TaskUpdateStateDto taskUpdateStateDto, @PathVariable String taskId, @AuthenticationPrincipal UserDto userDto) {
         taskService.updateTaskState(userDto.getId(), taskId, taskUpdateStateDto.getTaskState());
         return ResponseEntity.ok(new AppMessageDto("Task was successfully updated"));
+    }
+
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<AppMessageDto> deleteTask(@PathVariable String taskId, @AuthenticationPrincipal UserDto userDto) {
+        taskService.deleteTask(taskId);
+        return ResponseEntity.ok(new AppMessageDto("Task was successfully deleted"));
     }
 }

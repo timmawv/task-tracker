@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
@@ -18,4 +17,8 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     @Modifying
     @Query("update Task t set t.taskState = ?3 where t.owner.id = ?1 and t.id = ?2")
     Integer updateTaskState(Long userId, String taskId, TaskState taskState);
+
+    @Modifying
+    @Query(value = "update Task t set t.taskState = 'DELETED', t.finishedAt = CURRENT TIMESTAMP where t.id = ?1")
+    void deleteTask(String taskId);
 }

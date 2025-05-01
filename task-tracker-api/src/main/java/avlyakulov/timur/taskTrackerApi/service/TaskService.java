@@ -41,4 +41,9 @@ public class TaskService {
     public void updateTaskState(Long userId, String taskId, TaskState taskState) {
         taskRepository.updateTaskState(userId, taskId, taskState);
     }
+
+    @Transactional
+    public void deleteTask(String taskId) {
+        taskRepository.deleteTask(taskId);
+    }
 }
