@@ -65,6 +65,41 @@
     </form>
   </ng-template>
 
+  <ng-template #taskInfo>
+    <div class="modal-header d-flex justify-content-between">
+      <!-- Modal Title  -->
+      <h4 class="modal-title pull-left">Task info</h4>
+      <!-- Close Button  -->
+      <button type="button" class="btn btn-secondary" (click)="hideModal()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <!-- Modal Body -->
+    <div class="container p-5">
+
+      <div class="mb-3">
+        <h4>Title of the task</h4>
+        <p>{{ selectedTask?.title }}</p>
+      </div>
+
+      <div class="mb-3">
+        <h4>Description of the task</h4>
+        <p>{{ selectedTask?.description }}</p>
+      </div>
+
+      <div class="mb-3">
+        <h4>Date of creation</h4>
+        <p>{{ selectedTask?.createdAt | date: 'dd-MM-yyyy HH:mm' }}</p>
+      </div>
+
+      <div class="mb-3">
+        <h4>Completion date</h4>
+        <p>{{ selectedTask?.finishedAt ? (selectedTask?.finishedAt | date: 'dd-MM-yyyy HH:mm') : 'This task hasn\'t finished yet' }}</p>
+      </div>
+
+    </div>
+  </ng-template>
+
   <div cdkDropList
        [cdkDropListData]="(notStartedTasks$ | async) || []"
        [cdkDropListConnectedTo]="['inProgress', 'finished']"
@@ -80,8 +115,9 @@
         </label>
         <h3>{{ task.title }}</h3>
       </div>
-        <h4 class="sing_bottom">{{ task.description }}</h4>
-        <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
+      <h4 class="sing_bottom">{{ task.description }}</h4>
+      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
+      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
     </div>
     <div class="task_create">
       <button class="add-button" (click)="openModal(createTask)">+</button>
@@ -97,13 +133,16 @@
        id="inProgress">
     <h2>In progress</h2>
     <div class="tasks" *ngFor="let task of inProgressTasks$ | async" cdkDrag>
+      <div class="task_header">
         <label class="checkbox-container">
           <input type="checkbox">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
-        <h4 class="sing_bottom">{{ task.description }}</h4>
+      </div>
+      <h4 class="sing_bottom">{{ task.description }}</h4>
       <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
+      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
     </div>
   </div>
 
@@ -115,25 +154,16 @@
        id="finished">
     <h2>Finished</h2>
     <div class="tasks" *ngFor="let task of finishedTasks$ | async" cdkDrag>
+      <div class="task_header">
         <label class="checkbox-container">
           <input type="checkbox">
           <span class="custom-checkbox"></span>
         </label>
         <h3>{{ task.title }}</h3>
-        <h4 class="sing_bottom">{{ task.description }}</h4>
-      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
       </div>
+      <h4 class="sing_bottom">{{ task.description }}</h4>
+      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
+      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
+    </div>
   </div>
 </div>
-
-<!--<ul>-->
-<!--  <li *ngFor="let task of tasks$ | async">-->
-<!--    {{ task.id }} <br>-->
-<!--    {{ task.title }} <br>-->
-<!--    {{ task.description }} <br>-->
-<!--    {{ task.taskState }}<br>-->
-<!--    {{ task.createdAt }}<br>-->
-<!--    {{ task.finishedAt ? task.finishedAt : 'The task isn\'t finished yet '}}<br>-->
-<!--    {{ task.isCompleted }}<br>-->
-<!--  </li>-->
-<!--</ul>-->

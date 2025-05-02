@@ -44,6 +44,10 @@
   width: 40%;
 }
 
+.btn_info_task {
+  margin-left: 15px;
+}
+
 .task_create {
   display: flex;
   text-align: center;

@@ -21,6 +21,7 @@ export class TasksPageComponent implements OnInit {
   notStartedTasks$!: Observable<Task[]>;
   inProgressTasks$!: Observable<Task[]>;
   finishedTasks$!: Observable<Task[]>;
+  selectedTask: Task | null = null;
   protected readonly TaskState = TaskState;
   errorMessage: string = "";
 
@@ -69,6 +70,11 @@ export class TasksPageComponent implements OnInit {
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template);
+  }
+
+  openModalInfoTask(template: TemplateRef<any>, task: Task) {
+    this.modalRef = this.modalService.show(template);
+    this.selectedTask = task;
   }
 
   openModalEditTask(template: TemplateRef<any>, task: Task) {
