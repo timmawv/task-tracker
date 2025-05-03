@@ -2,9 +2,7 @@ package avlyakulov.timur.taskTrackerApi.controller;
 
 import avlyakulov.timur.taskTrackerApi.dto.AppMessageDto;
 import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
-import avlyakulov.timur.taskTrackerApi.dto.TaskUpdateStateDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
-import avlyakulov.timur.taskTrackerApi.entity.Task;
 import avlyakulov.timur.taskTrackerApi.service.TaskService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +39,8 @@ public class TaskController {
     }
 
     @PatchMapping("/{taskId}")
-    public ResponseEntity<AppMessageDto> updateTaskState(@RequestBody TaskUpdateStateDto taskUpdateStateDto, @PathVariable String taskId, @AuthenticationPrincipal UserDto userDto) {
-        taskService.updateTaskState(userDto.getId(), taskId, taskUpdateStateDto.getTaskState());
+    public ResponseEntity<AppMessageDto> updateTaskState(@RequestBody TaskDto taskDto, @PathVariable String taskId, @AuthenticationPrincipal UserDto userDto) {
+        taskService.updateTaskState(userDto.getId(), taskId, taskDto.getTaskState());
         return ResponseEntity.ok(new AppMessageDto("Task was successfully updated"));
     }
 
