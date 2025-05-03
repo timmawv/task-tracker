@@ -31,11 +31,11 @@ export class TaskService extends BaseService {
     return this.http.delete(this.apiUrl.concat("/".concat(taskId)));
   }
 
-  public editTask(payload: any) {
+  public editTask(taskId: string, payload: any) {
     const headers = this.getStandardHeaders();
     const params = this.getStandardParameters();
 
-    return this.http.put<Task>(this.apiUrl, payload, {headers, params});
+    return this.http.put<Task>(this.apiUrl.concat("/".concat(taskId)), payload, {headers, params});
   }
 
   public updateTaskState(taskId: string, taskState: TaskState) {

@@ -43,8 +43,8 @@ public class TaskService {
     }
 
     @Transactional
-    public TaskDto updateTask(TaskDto taskDto, Long userId) {
-        Optional<Task> task = taskRepository.findById(taskDto.getId());
+    public TaskDto updateTask(TaskDto taskDto, String taskId) {
+        Optional<Task> task = taskRepository.findById(taskId);
         Task updatedTask = task
                 .map(t -> {
                     t.setTitle(taskDto.getTitle());

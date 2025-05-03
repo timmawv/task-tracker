@@ -53,7 +53,7 @@ export class TasksPageComponent implements OnInit {
       description: this.editTaskForm.value.description
     }
 
-    this.taskService.editTask(payload).subscribe({
+    this.taskService.editTask(payload.id!, payload).subscribe({
       next: (updatedTask: Task) => {
         const currentTasks = this.tasksSubject.getValue();
         const updatedTasks = currentTasks.map(task =>
