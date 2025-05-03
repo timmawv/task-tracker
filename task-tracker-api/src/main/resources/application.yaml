@@ -4,7 +4,6 @@ spring:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/tasks}
     username: ${DB_USERNAME:postgres}
     password: ${DB_PASSWORD:postgres}
-
   jpa:
     hibernate:
       ddl-auto: validate
@@ -17,7 +16,27 @@ spring:
 
   web:
     resources:
-      add-mappings: false
+      add-mappings: false #add 400 bad request when wrong url
+
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092, localhost:9094
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      #Эти 2 настройки не рекомендуються
+      #retries: 10 #10 раз попробовать и потом остановиться
+      #properties:         retry:           backoff:            ms: 1000 #Посылать сообщения с интервалом в 1 секунду
+      properties.delivery.timeout:
+        ms: 20000 #максимальное время на повторы сообщения после чего будет TimeoutException
+      properties.linger:
+        ms: 0 # сколько накапливаем сообщений батчами
+      properties.request.timeout:
+        ms: 10000 #время ожидания одного запроса
+      properties.enable:
+        idempotence: true
+      properties.max.in.flight.requests.per:
+        connections: 5
 
 app:
  cors:
