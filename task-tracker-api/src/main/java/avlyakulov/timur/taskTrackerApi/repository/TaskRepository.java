@@ -14,6 +14,7 @@ public interface TaskRepository extends JpaRepository<Task, String> {
     @Query("select t from Task t where t.owner.id = ?1 and t.taskState != 'DELETED'")
     List<Task> findAllByUserId(Long userId);
 
+    //todo remove this method and use default update
     @Modifying
     @Query("update Task t set t.taskState = ?3 where t.owner.id = ?1 and t.id = ?2")
     void updateTaskState(Long userId, String taskId, TaskState taskState);
