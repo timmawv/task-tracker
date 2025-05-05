@@ -16,10 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
-@ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class TaskTrackerApiApplicationTests {
+class TaskTrackerApiApplicationTests extends AbstractTestApplication {
 
     @LocalServerPort
     private Integer port;

@@ -1,5 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.service;
 
+import avlyakulov.timur.taskTrackerApi.config.security.UserAuthProvider;
 import avlyakulov.timur.taskTrackerApi.dto.SignInDto;
 import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
@@ -22,17 +23,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserMapper userMapper;
-
     private final UserRepository userRepository;
-
+    private final UserAuthProvider userAuthProvider;
     private final PasswordEncoder passwordEncoder;
 
     public UserDto login(SignInDto signInDto) {
         User user = userRepository.findByEmail(signInDto.getEmail())
                 .orElseThrow(() -> new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST));
 
-        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword()))
-            return userMapper.toDto(user);
+        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            UserDto userDto = userMapper.toDto(user);
+            userDto.setToken(userAuthProvider.createToken(userDto));
+            return userDto;
+        }
 
         throw new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST);
     }

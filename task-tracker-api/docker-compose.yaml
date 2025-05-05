@@ -59,13 +59,13 @@ services:
       - kafka-3_volume:/bitnami/kafka
 
 
-  mysql:
+  postgres:
     container_name: postgres_db
     image: postgres:16-alpine
     volumes:
       - postgres_volume:/var/lib/postgresql/data
-      - ./init-multiple-dbs.sh:/docker-entrypoint-initdb.d/init-multiple-dbs.sh
     environment:
+      POSTGRES_DB: tasks
       PGUSER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
@@ -75,9 +75,26 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  postgres_test:
+      container_name: postgres_db_test
+      image: postgres:16-alpine
+      volumes:
+        - postgres_test_volume:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: tasks_test
+        PGUSER: postgres
+        POSTGRES_PASSWORD: postgres
+      ports:
+        - "5433:5432"
+      healthcheck:
+        test: [ "CMD-SHELL", "pg_isready", "-U", "docker_app" ]
+        interval: 10s
+        timeout: 5s
+        retries: 5
 
 volumes:
   postgres_volume:
+  postgres_test_volume:
   kafka-1_volume:
   kafka-2_volume:
   kafka-3_volume:

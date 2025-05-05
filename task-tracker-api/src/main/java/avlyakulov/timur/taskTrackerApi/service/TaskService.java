@@ -31,6 +31,7 @@ public class TaskService {
         return taskMapper.toListDto(taskRepository.findAllByUserId(userId));
     }
 
+    @Transactional
     public TaskDto createTaskByUserId(TaskDto taskDto, Long userId) {
         Task task = taskMapper.toEntity(taskDto);
         task.setId(UUID.randomUUID().toString());

@@ -14,7 +14,7 @@ create table tasks (
     is_completed boolean not null,
     created_at timestamp,
     finished_at  timestamp,
-    user_id      bigint references users (id)
+    user_id      bigint references users(id) on delete cascade
 );
 
 create index index_user_email on users (email);

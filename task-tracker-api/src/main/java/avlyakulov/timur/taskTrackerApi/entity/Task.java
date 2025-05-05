@@ -43,6 +43,7 @@ public class Task {
     private LocalDateTime finishedAt;
 
     //todo добавить каскадность пользователю, если его удаляют то все его задачи тоже
+    //проблема с каскадностью когда ее добавляю то нельзя завершить транзакцию
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User owner;
