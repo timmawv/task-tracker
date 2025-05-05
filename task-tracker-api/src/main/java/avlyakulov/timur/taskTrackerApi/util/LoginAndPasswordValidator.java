@@ -50,8 +50,8 @@ public class LoginAndPasswordValidator implements Validator {
             case EMAIL -> validateLoginAsEmail(login, errors);
         }
 
-        if (login.length() < 2 || login.length() > 16) {
-            rejectValue(LOGIN_FIELD, "Your length has to be from 2 to 16 symbols", errors);
+        if (login.length() < 2 || login.length() > 30) {
+            rejectValue(LOGIN_FIELD, "Your login length has to be from 2 to 30 symbols", errors);
             return;
         }
 
@@ -70,7 +70,7 @@ public class LoginAndPasswordValidator implements Validator {
         if (strength.getScore() < 3) {
             String suggestions = strength.getFeedback().getSuggestions().toString();
             suggestions = suggestions.substring(1, suggestions.length() - 1);
-            rejectValue(PASSWORD_FIELD, "Your password is to easy. Here is some suggestions to help you:".concat(suggestions), errors);
+            rejectValue(PASSWORD_FIELD, "Your password is to easy. Here is some suggestions to help you : ".concat(suggestions), errors);
             return;
         }
         if (!password.equals(confirmPassword))

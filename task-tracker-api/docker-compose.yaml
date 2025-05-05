@@ -3,7 +3,7 @@ version: '3'
 services:
   kafka-1:
     image: bitnami/kafka:latest
-    container_name: kafka-1
+    container_name: kafka-task-tracker-1
     ports:
       - "9092:9092"
     user: root
@@ -18,11 +18,11 @@ services:
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     volumes:
-      - ${SERVER_1_VOLUME}:/bitnami/kafka
+      - kafka-1_volume:/bitnami/kafka
 
   kafka-2:
     image: bitnami/kafka:latest
-    container_name: kafka-2
+    container_name: kafka-task-tracker-2
     ports:
       - "9094:9094"
     user: root
@@ -37,11 +37,11 @@ services:
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     volumes:
-      - ${SERVER_2_VOLUME}:/bitnami/kafka
+      - kafka-2_volume:/bitnami/kafka
 
   kafka-3:
     image: bitnami/kafka:latest
-    container_name: kafka-3
+    container_name: kafka-task-tracker-3
     ports:
       - "9096:9096"
     user: root
@@ -56,7 +56,7 @@ services:
       KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
       KAFKA_CFG_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     volumes:
-      - ${SERVER_3_VOLUME}:/bitnami/kafka
+      - kafka-3_volume:/bitnami/kafka
 
 
   mysql:
@@ -78,3 +78,6 @@ services:
 
 volumes:
   postgres_volume:
+  kafka-1_volume:
+  kafka-2_volume:
+  kafka-3_volume:

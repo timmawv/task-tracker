@@ -17,6 +17,7 @@ export class LoginComponent {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
   }
 
+  //todo add to html show password
   login(form: any) {
 
     if (form.valid) {
