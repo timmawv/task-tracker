@@ -2,6 +2,7 @@ package avlyakulov.timur.taskTrackerApi.config;
 
 import avlyakulov.timur.taskTrackerApi.dto.ErrorDto;
 import avlyakulov.timur.taskTrackerApi.exception.AppException;
+import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
 import avlyakulov.timur.taskTrackerApi.util.ErrorsParsingBindingResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,9 +32,9 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorDto> handleNoHandlerExceptions(NoHandlerFoundException noHandlerFoundException) {
+    public ResponseEntity<ErrorDto> handleNoHandlerExceptions() {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorDto(noHandlerFoundException.getMessage()));
+                .body(new ErrorDto(AppExceptionMessage.URL_NOT_FOUND));
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)

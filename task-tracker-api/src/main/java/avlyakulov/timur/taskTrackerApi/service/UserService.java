@@ -14,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -36,6 +37,7 @@ public class UserService {
         throw new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST);
     }
 
+    @Transactional
     public UserDto register(SignUpDto signUpDto) {
         User user = userMapper.toEntity(signUpDto);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));

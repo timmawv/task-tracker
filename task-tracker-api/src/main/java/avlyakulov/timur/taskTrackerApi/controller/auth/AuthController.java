@@ -25,7 +25,6 @@ public class AuthController {
     private final UserService userService;
     private final UserAuthProvider userAuthProvider;
     private final LoginAndPasswordValidator loginAndPasswordValidator;
-    private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
     public ResponseEntity<UserDto> login(@RequestBody @Valid SignInDto signInDto) {
