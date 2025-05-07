@@ -1,6 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.config;
 
-import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
+import avlyakulov.timur.taskTrackerApi.dto.WelcomeLetterDto;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -65,12 +65,12 @@ public class KafkaConfig {
     }
 
     @Bean
-    ProducerFactory<String, TaskDto> producerFactory() {
+    ProducerFactory<String, WelcomeLetterDto> producerFactory() {
         return new DefaultKafkaProducerFactory<>(producerConfig());
     }
 
     @Bean
-    KafkaTemplate<String, TaskDto> kafkaTemplate() {
+    KafkaTemplate<String, WelcomeLetterDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
