@@ -39,8 +39,8 @@ public class TaskController {
     }
 
     @PatchMapping("/{taskId}")
-    public ResponseEntity<AppMessageDto> updateTaskState(@RequestBody TaskDto taskDto, @PathVariable String taskId, @AuthenticationPrincipal UserDto userDto) {
-        taskService.updateTaskState(userDto.getId(), taskId, taskDto.getTaskState());
+    public ResponseEntity<AppMessageDto> updateTaskState(@RequestBody TaskDto taskDto, @PathVariable String taskId) {
+        taskService.updateTask(taskDto, taskId);
         return ResponseEntity.ok(new AppMessageDto("Task state was successfully updated"));
     }
 

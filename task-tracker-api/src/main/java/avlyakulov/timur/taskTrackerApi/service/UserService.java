@@ -7,6 +7,7 @@ import avlyakulov.timur.taskTrackerApi.exception.AppException;
 import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
 import avlyakulov.timur.taskTrackerApi.mapper.UserMapper;
 import avlyakulov.timur.taskTrackerApi.repository.UserRepository;
+import avlyakulov.timur.taskTrackerApi.util.WelcomeLetterUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +50,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         try {
             User savedUser = userRepository.save(user);
-            WelcomeLetterDto welcomeLetterDto = new WelcomeLetterDto(user.getEmail(), "title", "description");
+            WelcomeLetterDto welcomeLetterDto = WelcomeLetterUtil.makeWelcomeLetter(savedUser.getEmail());
             kafkaTemplate.send(emailTopic, welcomeLetterDto);
             return userMapper.toDto(savedUser);
         } catch (DataIntegrityViolationException e) {

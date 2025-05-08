@@ -55,8 +55,8 @@ public class LoginAndPasswordValidator implements Validator {
             return;
         }
 
-        if (!(password.length() >= 6 && password.length() <= 16)) {
-            rejectValue(PASSWORD_FIELD, "The length of password has to be from 6 to 16", errors);
+        if (!(password.length() >= 6 && password.length() <= 25)) {
+            rejectValue(PASSWORD_FIELD, "The length of password has to be from 6 to 25", errors);
             return;
         }
 
