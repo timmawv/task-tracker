@@ -1,6 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.util;
 
-import avlyakulov.timur.taskTrackerApi.dto.WelcomeLetterDto;
+import avlyakulov.timur.dto.WelcomeLetterDto;
 import io.micrometer.common.util.StringUtils;
 
 public class WelcomeLetterUtil {

@@ -1,4 +1,4 @@
-package avlyakulov.timur.taskTrackerApi.dto;
+package avlyakulov.timur.dto;
 
 import lombok.*;
 

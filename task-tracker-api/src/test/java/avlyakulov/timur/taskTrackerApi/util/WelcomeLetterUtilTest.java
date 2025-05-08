@@ -1,9 +1,9 @@
 package avlyakulov.timur.taskTrackerApi.util;
 
-import avlyakulov.timur.taskTrackerApi.dto.WelcomeLetterDto;
+import avlyakulov.timur.dto.WelcomeLetterDto;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class WelcomeLetterUtilTest {
 

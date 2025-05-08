@@ -1,6 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.config;
 
-import avlyakulov.timur.taskTrackerApi.dto.WelcomeLetterDto;
+import avlyakulov.timur.dto.WelcomeLetterDto;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
