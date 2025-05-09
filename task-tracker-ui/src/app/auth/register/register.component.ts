@@ -14,6 +14,8 @@ export class RegisterComponent {
   errorMessage: string = "";
   isSuccessRegister: boolean = false;
   userEmail: string = "";
+  showPassword: boolean = false;
+  showConfirmPassword: boolean = false;
 
   constructor(private http: HttpClient, private authService: AuthService) {
   }

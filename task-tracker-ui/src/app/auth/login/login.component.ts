@@ -13,11 +13,11 @@ export class LoginComponent {
 
   loading: boolean = false;
   errorMessage: string = "";
+  showPassword: boolean = false;
 
-  constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
-  }
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
-  //todo add to html show password
+
   login(form: any) {
 
     if (form.valid) {

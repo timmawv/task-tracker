@@ -7,12 +7,14 @@
 
   <div class="mb-2">
     <label for="password">Password: </label>
-    <input type="password" id="password" class="form-control" name="password" ngModel required>
+    <input [type]="showPassword ? 'text' : 'password'" id="password" class="form-control" name="password" ngModel required>
+    <button type="button" class="btn btn-outline-" (click)="showPassword = !showPassword" tabindex="-1"><i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i> Show password</button>
   </div>
 
   <div class="mb-2">
     <label for="confirmPassword">Confirm your password: </label>
-    <input type="password" id="confirmPassword" class="form-control" name="confirmPassword" ngModel required>
+    <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" class="form-control" name="password" ngModel required>
+    <button type="button" class="btn btn-outline-" (click)="showConfirmPassword = !showConfirmPassword" tabindex="-1"><i class="bi" [ngClass]="showConfirmPassword ? 'bi-eye-slash' : 'bi-eye'"></i> Show password</button>
   </div>
 
   <div *ngIf="errorMessage" class="mb-2 alert alert-danger" [innerHtml]="errorMessage"></div>
