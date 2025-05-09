@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ThemeResolver;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +27,7 @@ public class TaskService {
     private final TaskRepository taskRepository;
 
     private final TaskMapper taskMapper;
+    private final ThemeResolver themeResolver;
 
     public List<TaskDto> findTasksByUserId(Long userId) {
         return taskMapper.toListDto(taskRepository.findAllByUserId(userId));
@@ -54,6 +56,17 @@ public class TaskService {
                 })
                 .orElseThrow(() -> new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND));
         return taskMapper.toDto(taskRepository.save(updatedTask));
+    }
+
+    @Transactional
+    public void updateTaskState(TaskState taskState, String taskId) {
+        Optional<Task> task = taskRepository.findById(taskId);
+        task
+                .ifPresentOrElse(
+                        t -> t.setTaskState(taskState),
+                        () -> {
+                            throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
+                        });
     }
 
     @Transactional
