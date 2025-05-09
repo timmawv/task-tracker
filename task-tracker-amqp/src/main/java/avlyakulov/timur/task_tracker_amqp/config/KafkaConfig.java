@@ -56,7 +56,6 @@ public class KafkaConfig {
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, Object> kafkaListenerContainerFactory(ConsumerFactory<String, Object> consumerFactory,
                                                                                           KafkaTemplate<String, Object> kafkaTemplate) {
-
         //DLT topic sending
         DefaultErrorHandler errorHandler = new DefaultErrorHandler(new DeadLetterPublishingRecoverer(kafkaTemplate,
                 (record, exception) -> new TopicPartition(emailTopic.concat(".DLT"), 0)),
