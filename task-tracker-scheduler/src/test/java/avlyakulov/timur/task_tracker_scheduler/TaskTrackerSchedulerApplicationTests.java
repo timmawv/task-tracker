@@ -1,10 +1,10 @@
-package avlyakulov.timur.task_tracker_sheduler;
+package avlyakulov.timur.task_tracker_scheduler;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TaskTrackerShedulerApplicationTests {
+class TaskTrackerSchedulerApplicationTests {
 
 	@Test
 	void contextLoads() {

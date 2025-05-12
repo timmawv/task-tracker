@@ -1,13 +1,13 @@
-package avlyakulov.timur.task_tracker_sheduler;
+package avlyakulov.timur.task_tracker_scheduler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TaskTrackerShedulerApplication {
+public class TaskTrackerSchedulerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TaskTrackerShedulerApplication.class, args);
+		SpringApplication.run(TaskTrackerSchedulerApplication.class, args);
 	}
 
 }
