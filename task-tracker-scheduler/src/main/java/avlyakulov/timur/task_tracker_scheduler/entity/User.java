@@ -24,7 +24,6 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "id", referencedColumnName = "user_id")
+    @OneToMany(mappedBy = "owner")
     private List<Task> tasks;
 }

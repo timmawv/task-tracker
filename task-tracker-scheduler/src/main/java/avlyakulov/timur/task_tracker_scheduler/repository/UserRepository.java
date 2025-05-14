@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select User from User u left join fetch u.tasks")
+    @Query("Select u from User u join fetch u.tasks")
     List<User> findAllUsers();
 }
