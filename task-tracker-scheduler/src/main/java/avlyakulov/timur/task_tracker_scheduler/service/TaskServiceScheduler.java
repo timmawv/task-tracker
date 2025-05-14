@@ -57,6 +57,7 @@ public class TaskServiceScheduler {
         StringBuilder descNotFinishedTasks = new StringBuilder(descriptionNotFinishedTasks);
         userTask.getTasks().stream()
                 .filter(task -> !task.getIsCompleted())
+                .limit(5)
                 .forEach(task -> descNotFinishedTasks.append("•".concat(task.getTitle()).concat("\n")));
         return descNotFinishedTasks.toString();
     }
@@ -66,6 +67,7 @@ public class TaskServiceScheduler {
         LocalDate previousDay = LocalDate.now().minusDays(1L);
         List<TaskDto> finishedTasks = userTask.getTasks().stream()
                 .filter(task -> (task.getIsCompleted() && task.getFinishedAt().toLocalDate().isEqual(previousDay)))
+                .limit(5)
                 .toList();
         if (!finishedTasks.isEmpty()) {
             finishedTasks.forEach(task -> descFinishedTasks.append("•".concat(task.getTitle()).concat("\n")));
