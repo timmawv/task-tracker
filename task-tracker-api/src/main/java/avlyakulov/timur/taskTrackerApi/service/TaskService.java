@@ -25,9 +25,7 @@ import java.util.UUID;
 public class TaskService {
 
     private final TaskRepository taskRepository;
-
     private final TaskMapper taskMapper;
-    private final ThemeResolver themeResolver;
 
     public List<TaskDto> findTasksByUserId(Long userId) {
         return taskMapper.toListDto(taskRepository.findAllByUserId(userId));
@@ -59,14 +57,27 @@ public class TaskService {
     }
 
     @Transactional
-    public void updateTaskState(TaskState taskState, String taskId) {
+    public void updateTaskState(String taskId, TaskState taskState) {
         Optional<Task> task = taskRepository.findById(taskId);
-        task
-                .ifPresentOrElse(
-                        t -> t.setTaskState(taskState),
-                        () -> {
-                            throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
-                        });
+        task.ifPresentOrElse(t -> updateTaskByState(t, taskState),
+                () -> {
+                    throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
+                });
+    }
+
+    public void updateTaskByState(Task task, TaskState taskState) {
+        switch (taskState) {
+            case FINISHED -> {
+                task.setIsCompleted(true);
+                task.setFinishedAt(LocalDateTime.now());
+                task.setTaskState(taskState);
+            }
+            case NOT_STARTED, IN_PROGRESS -> {
+                task.setIsCompleted(false);
+                task.setFinishedAt(null);
+                task.setTaskState(taskState);
+            }
+        }
     }
 
     @Transactional

@@ -1,5 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.service;
 
+import avlyakulov.timur.dto.WelcomeLetterDto;
 import avlyakulov.timur.taskTrackerApi.config.security.UserAuthProvider;
 import avlyakulov.timur.taskTrackerApi.dto.*;
 import avlyakulov.timur.taskTrackerApi.entity.User;
@@ -17,7 +18,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import avlyakulov.timur.dto.WelcomeLetterDto;
 
 @Slf4j
 @Service
