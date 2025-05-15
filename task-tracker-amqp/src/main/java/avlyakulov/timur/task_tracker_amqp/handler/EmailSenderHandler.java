@@ -1,5 +1,6 @@
 package avlyakulov.timur.task_tracker_amqp.handler;
 
+import avlyakulov.timur.dto.DailyReportDto;
 import avlyakulov.timur.dto.WelcomeLetterDto;
 import avlyakulov.timur.task_tracker_amqp.service.EmailService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,14 @@ public class EmailSenderHandler {
 
     //todo make logs information
     @KafkaListener(topics = "${spring.kafka.consumer.topic}", containerFactory = "kafkaListenerContainerFactory")
-    public void handleMessages(@Payload WelcomeLetterDto welcomeLetterDto) {
+    public void handleWelcomeMessage(@Payload WelcomeLetterDto welcomeLetterDto) {
         log.info("Received event: {}", welcomeLetterDto.getDescription());
         emailService.sendEmail(welcomeLetterDto);
+    }
+
+    @KafkaListener(topics = "${spring.kafka.consumer.topic}", containerFactory = "kafkaListenerContainerFactory")
+    public void handleDailyReportMessages(@Payload DailyReportDto dailyReportDto) {
+        log.info("Received event: {}", dailyReportDto.getTitle());
+        emailService.sendEmail(dailyReportDto);
     }
 }

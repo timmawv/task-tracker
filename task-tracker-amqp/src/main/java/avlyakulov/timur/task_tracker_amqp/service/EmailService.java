@@ -1,5 +1,6 @@
 package avlyakulov.timur.task_tracker_amqp.service;
 
+import avlyakulov.timur.dto.DailyReportDto;
 import avlyakulov.timur.dto.WelcomeLetterDto;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,14 @@ public class EmailService {
     private JavaMailSender javaMailSender;
 
     public void sendEmail(WelcomeLetterDto welcomeLetterDto) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(welcomeLetterDto.getEmail());
+        message.setSubject(welcomeLetterDto.getTitle());
+        message.setText(welcomeLetterDto.getDescription());
+        javaMailSender.send(message);
+    }
+
+    public void sendEmail(DailyReportDto welcomeLetterDto) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(welcomeLetterDto.getEmail());
         message.setSubject(welcomeLetterDto.getTitle());
