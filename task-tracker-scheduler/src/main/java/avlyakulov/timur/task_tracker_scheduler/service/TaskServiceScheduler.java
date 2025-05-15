@@ -6,8 +6,8 @@ import avlyakulov.timur.task_tracker_scheduler.dto.UserTaskDto;
 import avlyakulov.timur.task_tracker_scheduler.entity.User;
 import avlyakulov.timur.task_tracker_scheduler.mapper.TaskMapper;
 import avlyakulov.timur.task_tracker_scheduler.repository.UserRepository;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -55,24 +55,28 @@ public class TaskServiceScheduler {
 
     public String findNotFinishedTasks(UserTaskDto userTask) {
         StringBuilder descNotFinishedTasks = new StringBuilder(descriptionNotFinishedTasks);
-        userTask.getTasks().stream()
+        List<TaskDto> notFinishedTasks = userTask.getTasks().stream()
                 .filter(task -> !task.getIsCompleted())
                 .limit(5)
-                .forEach(task -> descNotFinishedTasks.append("•".concat(task.getTitle()).concat("\n")));
-        return descNotFinishedTasks.toString();
+                .toList();
+        if (!notFinishedTasks.isEmpty()) {
+            notFinishedTasks.forEach(task -> descNotFinishedTasks.append("• ".concat(task.getTitle()).concat("\n")));;
+            return descNotFinishedTasks.toString();
+        }
+        return StringUtils.EMPTY;
     }
 
     public String findFinishedTasks(UserTaskDto userTask) {
         StringBuilder descFinishedTasks = new StringBuilder(descriptionFinishedTasks);
-        LocalDate previousDay = LocalDate.now().minusDays(1L);
+        LocalDate previousDay = LocalDate.now();
         List<TaskDto> finishedTasks = userTask.getTasks().stream()
                 .filter(task -> (task.getIsCompleted() && task.getFinishedAt().toLocalDate().isEqual(previousDay)))
                 .limit(5)
                 .toList();
         if (!finishedTasks.isEmpty()) {
-            finishedTasks.forEach(task -> descFinishedTasks.append("•".concat(task.getTitle()).concat("\n")));
+            finishedTasks.forEach(task -> descFinishedTasks.append("• ".concat(task.getTitle()).concat("\n")));
             return descFinishedTasks.toString();
         }
-        return "";
+        return StringUtils.EMPTY;
     }
 }
