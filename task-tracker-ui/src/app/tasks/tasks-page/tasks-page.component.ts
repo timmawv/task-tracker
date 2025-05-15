@@ -88,6 +88,7 @@ export class TasksPageComponent implements OnInit {
 
   hideModal() {
     this.createTaskForm.reset();
+    this.errorMessage = "";
     this.modalRef.hide();
   }
 
