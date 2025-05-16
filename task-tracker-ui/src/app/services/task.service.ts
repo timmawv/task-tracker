@@ -46,6 +46,6 @@ export class TaskService extends BaseService {
       taskState: taskState
     }
 
-    return this.http.patch(this.apiUrl.concat("/".concat(taskId)), payload, {headers, params});
+    return this.http.patch<Task>(this.apiUrl.concat("/".concat(taskId)), payload, {headers, params});
   }
 }

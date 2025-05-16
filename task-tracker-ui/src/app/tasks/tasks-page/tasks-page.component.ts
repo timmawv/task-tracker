@@ -151,8 +151,9 @@ export class TasksPageComponent implements OnInit {
 
       // Обновляем состояние задачи на бекенде
       this.taskService.updateTaskState(movedTask.id, taskState).subscribe({
-        next: () => {
+        next: (updatedTask: Task) => {
           movedTask.taskState = taskState;
+          movedTask.finishedAt = updatedTask.finishedAt;
           const currentTasks = this.tasksSubject.value;
           this.tasksSubject.next([...currentTasks]);
         },

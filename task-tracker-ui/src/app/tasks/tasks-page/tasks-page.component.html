@@ -113,11 +113,29 @@
     <div class="tasks" *ngFor="let task of notStartedTasks$ | async" cdkDrag>
       <div class="task_header">
         <h3>{{ task.title }}</h3>
+
+        <div class="dropdown task-menu">
+          <button class="btn btn-link icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" (click)="openModalEditTask(editTask, task)">Edit task</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="openModalInfoTask(taskInfo, task)">Task info</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-danger" (click)="openModalInfoTask(taskInfo, task)">Delete</a>
+            </li>
+          </ul>
+        </div>
+
       </div>
-      <h4 class="sing_bottom">{{ task.description }}</h4>
-      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
-      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
-    </div>
+
+      <h5 class="sing_bottom">{{ task.description }}</h5>
+      </div>
     <div class="task_create">
       <button class="add-button" (click)="openModal(createTask)">+</button>
       <h3 class="sign_create">Create task</h3>
@@ -133,12 +151,38 @@
     <h2>In progress</h2>
     <div class="tasks" *ngFor="let task of inProgressTasks$ | async" cdkDrag>
       <div class="task_header">
-        <h3>{{ task.title }}</h3>
+
+        <label class="checkbox-container">
+          <input type="checkbox" (change)="deleteTask(task.id)">
+          <span class="custom-checkbox"></span>
+        </label>
+
+        <div class="task_header_body">
+          <h3>{{ task.title }}</h3>
+          <div class="dropdown task-menu">
+            <button class="btn btn-link icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a class="dropdown-item" (click)="openModalEditTask(editTask, task)">Edit task</a>
+              </li>
+              <li>
+                <a class="dropdown-item" (click)="openModalInfoTask(taskInfo, task)">Task info</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <a class="dropdown-item text-danger" (click)="openModalInfoTask(taskInfo, task)">Delete</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
-      <h4 class="sing_bottom">{{ task.description }}</h4>
-      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
-      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
-    </div>
+      <h5 class="sing_bottom">{{ task.description }}</h5>
+      </div>
   </div>
 
   <div cdkDropList
@@ -151,11 +195,27 @@
     <div class="tasks_finished" *ngFor="let task of finishedTasks$ | async" cdkDrag>
       <div class="task_header">
         <h3>{{ task.title }}</h3>
+
+        <div class="dropdown task-menu">
+          <button class="btn btn-link icon-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-three-dots-vertical"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" (click)="openModalEditTask(editTask, task)">Edit task</a>
+            </li>
+            <li>
+              <a class="dropdown-item" (click)="openModalInfoTask(taskInfo, task)">Task info</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+              <a class="dropdown-item text-danger" (click)="openModalInfoTask(taskInfo, task)">Delete</a>
+            </li>
+          </ul>
+        </div>
+
       </div>
-      <h4 class="sing_bottom">{{ task.description }}</h4>
-      <button class="btn btn-primary btn_edit_task" (click)="openModalEditTask(editTask, task)">Edit task</button>
-      <button class="btn btn-primary btn_info_task" (click)="openModalInfoTask(taskInfo, task)">Task info</button>
-      <button class="btn btn-danger" (click)="openModalInfoTask(taskInfo, task)">Delete</button>
+      <h5 class="sing_bottom">{{ task.description }}</h5>
     </div>
   </div>
 </div>

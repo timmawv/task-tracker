@@ -41,21 +41,21 @@
   align-items: center;
 }
 
+.task_header_body {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
 .task_header h3 {
   margin-top: 5px;
 }
 
 .sing_bottom {
+  color: grey;
   grid-column: span 2;
-}
-
-.btn_edit_task {
-  grid-column: span 2;
-  width: 40%;
-}
-
-.btn_info_task {
-  margin-left: 15px;
 }
 
 .task_create {
@@ -187,4 +187,22 @@
 
 .cdk-drag:active {
   transform: scale(0.98);
+}
+
+.dropdown-menu {
+  background-color: white;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-menu li {
+  cursor: pointer;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #000;
+  cursor: pointer;
 }
