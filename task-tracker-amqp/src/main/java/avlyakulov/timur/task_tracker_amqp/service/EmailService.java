@@ -22,11 +22,11 @@ public class EmailService {
         javaMailSender.send(message);
     }
 
-    public void sendEmail(DailyReportDto welcomeLetterDto) {
+    public void sendEmail(DailyReportDto dailyReportDto) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(welcomeLetterDto.getEmail());
-        message.setSubject(welcomeLetterDto.getTitle());
-        message.setText(welcomeLetterDto.getDescription());
+        message.setTo(dailyReportDto.getEmail());
+        message.setSubject(dailyReportDto.getTitle());
+        message.setText(dailyReportDto.getDescription());
         javaMailSender.send(message);
     }
 }

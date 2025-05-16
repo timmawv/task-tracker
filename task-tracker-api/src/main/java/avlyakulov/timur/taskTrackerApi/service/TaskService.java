@@ -57,12 +57,13 @@ public class TaskService {
     }
 
     @Transactional
-    public void updateTaskState(String taskId, TaskState taskState) {
+    public TaskDto updateTaskState(String taskId, TaskState taskState) {
         Optional<Task> task = taskRepository.findById(taskId);
-        task.ifPresentOrElse(t -> updateTaskByState(t, taskState),
-                () -> {
-                    throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
-                });
+        if (task.isPresent()) {
+            updateTaskByState(task.get(), taskState);
+            return taskMapper.toDto(task.get());
+        } else
+            throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
     public void updateTaskByState(Task task, TaskState taskState) {
