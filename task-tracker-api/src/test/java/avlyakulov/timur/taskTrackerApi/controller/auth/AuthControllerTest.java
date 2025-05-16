@@ -128,7 +128,7 @@ class AuthControllerTest extends AbstractTestApplication {
                 .then()
                 .statusCode(400)
                 .contentType(ContentType.JSON)
-                .body("message", equalTo("The length of password has to be from 6 to 16"));
+                .body("message", equalTo("The length of password has to be from 6 to 25"));
     }
 
     @Test

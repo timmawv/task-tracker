@@ -237,9 +237,9 @@ class TaskControllerTest extends AbstractTestApplication {
         assertThat(task.getTitle(), equalTo("Buy a sofa"));
         assertThat(task.getDescription(), equalTo("finish till 27 october"));
         assertThat(task.getTaskState(), equalTo(TaskState.FINISHED));
-        assertThat(task.getIsCompleted(), equalTo(false));
+        assertThat(task.getIsCompleted(), equalTo(true));
         assertThat(task.getCreatedAt(), notNullValue());
-        assertThat(task.getFinishedAt(), nullValue());
+        assertThat(task.getFinishedAt(), notNullValue());
     }
 
     @Test
@@ -266,8 +266,8 @@ class TaskControllerTest extends AbstractTestApplication {
         assertThat(task.getTitle(), equalTo("Buy a sofa"));
         assertThat(task.getDescription(), equalTo("finish till 27 october"));
         assertThat(task.getTaskState(), equalTo(TaskState.DELETED));
-        assertThat(task.getIsCompleted(), equalTo(true));
+        assertThat(task.getIsCompleted(), equalTo(false));
         assertThat(task.getCreatedAt(), notNullValue());
-        assertThat(task.getFinishedAt(), notNullValue());
+        assertThat(task.getFinishedAt(), nullValue());
     }
 }
