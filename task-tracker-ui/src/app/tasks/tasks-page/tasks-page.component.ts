@@ -24,6 +24,7 @@ export class TasksPageComponent implements OnInit {
   selectedTask: Task | null = null;
   protected readonly TaskState = TaskState;
   errorMessage: string = "";
+  modalRef!: BsModalRef;
 
   constructor(private taskService: TaskService, private modalService: BsModalService) { }
 
@@ -92,8 +93,6 @@ export class TasksPageComponent implements OnInit {
     this.modalRef.hide();
   }
 
-  modalRef!: BsModalRef;
-
   createTaskForm = new FormGroup({
     title: new FormControl(''),
     description: new FormControl('')
@@ -133,6 +132,19 @@ export class TasksPageComponent implements OnInit {
         console.error(error.message);
       }
     })
+  }
+
+  finishTask(taskId: string) {
+    this.taskService.updateTaskState(taskId, TaskState.FINISHED).subscribe({
+      next: (updatedTask: Task) => {
+        const currentTasks = this.tasksSubject.getValue();
+        const updatedTasks = currentTasks.map(task =>
+          task.id === updatedTask.id ? updatedTask : task
+        );
+        this.tasksSubject.next(updatedTasks);
+      },
+      error: (error) => console.error('Failed to update task', error)
+    });
   }
 
   onDrop(event: CdkDragDrop<Task[]>, taskState: TaskState) {

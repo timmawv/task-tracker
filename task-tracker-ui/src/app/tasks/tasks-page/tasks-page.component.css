@@ -25,14 +25,8 @@
   will-change: transform, opacity;
 }
 
-.tasks_finished {
-  border: 2px solid #0cdc0c;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  padding: 10px;
-  transition: transform 0.2ms cubic-bezier(0.22, 1, 0.36, 1),
-  box-shadow 0.2ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: transform, opacity;
+.tasks.finished {
+  border-color: #0cdc0c;
 }
 
 .task_header {
@@ -205,4 +199,10 @@
   line-height: 1;
   color: #000;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .task_page {
+    flex-direction: column;
+  }
 }
