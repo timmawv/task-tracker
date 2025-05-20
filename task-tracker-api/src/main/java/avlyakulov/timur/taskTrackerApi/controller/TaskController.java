@@ -26,6 +26,7 @@ public class TaskController {
         return ResponseEntity.ok(tasks);
     }
 
+    //todo подумать куда вынести этот принципал, забирает место
     @PostMapping
     public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
         TaskDto taskResponse = taskService.createTaskByUserId(taskDto, userDto.getId());
