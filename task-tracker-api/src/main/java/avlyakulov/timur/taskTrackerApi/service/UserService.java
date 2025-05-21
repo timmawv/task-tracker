@@ -45,7 +45,7 @@ public class UserService {
         throw new AppException(AppExceptionMessage.CRED_NOT_CORRECT, HttpStatus.BAD_REQUEST);
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public UserDto register(SignUpDto signUpDto) {
         User user = userMapper.toEntity(signUpDto);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));

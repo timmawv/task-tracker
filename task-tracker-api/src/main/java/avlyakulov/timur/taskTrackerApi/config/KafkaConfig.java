@@ -1,6 +1,7 @@
 package avlyakulov.timur.taskTrackerApi.config;
 
 import avlyakulov.timur.dto.WelcomeLetterDto;
+import jakarta.persistence.EntityManagerFactory;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +11,8 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.transaction.KafkaTransactionManager;
+import org.springframework.orm.jpa.JpaTransactionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +38,8 @@ public class KafkaConfig {
     private String enableIdempotence;
     @Value("${spring.kafka.producer.properties.max.in.flight.requests.per.connections}")
     private String maxInFlightRequest;
+    @Value("${spring.kafka.producer.transaction-id-prefix}")
+    private String transactionalIdPrefix;
     @Value("${spring.kafka.producer.topic}")
     private String emailTopic;
 
@@ -50,6 +55,7 @@ public class KafkaConfig {
         config.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, enableIdempotence);
         config.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, maxInFlightRequest);
         config.put(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE);
+        config.put(ProducerConfig.TRANSACTIONAL_ID_CONFIG, transactionalIdPrefix);
 
         return config;
     }
@@ -60,12 +66,23 @@ public class KafkaConfig {
     }
 
     @Bean
-    KafkaTemplate<String, WelcomeLetterDto> kafkaTemplate() {
+    KafkaTemplate<String, WelcomeLetterDto> kafkaTemplate(ProducerFactory<String, Object> producerFactory) {
         return new KafkaTemplate<>(producerFactory());
     }
 
+    //именно он создает и транзакцию
     @Bean
-    NewTopic createTopic() {
+    KafkaTransactionManager<String, Object> kafkaTransactionManager(ProducerFactory<String, Object> producerFactory) {
+        return new KafkaTransactionManager<>(producerFactory);
+    }
+
+    @Bean("transactionManager")
+    JpaTransactionManager jpaTransactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+    @Bean
+    NewTopic createEmailTopic() {
         return TopicBuilder.name(emailTopic)
                 .partitions(3)
                 .replicas(3)

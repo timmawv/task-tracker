@@ -38,6 +38,7 @@ spring:
         idempotence: true
       properties.max.in.flight.requests.per:
         connections: 5
+      transaction-id-prefix: email-service-${random.value}-
 
 app:
  cors:
