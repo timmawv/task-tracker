@@ -31,7 +31,7 @@ public class TaskService {
         return taskMapper.toListDto(taskRepository.findAllByUserId(userId));
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public TaskDto createTaskByUserId(TaskDto taskDto, Long userId) {
         Task task = taskMapper.toEntity(taskDto);
         task.setId(UUID.randomUUID().toString());
@@ -43,7 +43,7 @@ public class TaskService {
         return taskMapper.toDto(task);
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public TaskDto updateTask(TaskDto taskDto, String taskId) {
         Optional<Task> task = taskRepository.findById(taskId);
         Task updatedTask = task
@@ -56,7 +56,7 @@ public class TaskService {
         return taskMapper.toDto(taskRepository.save(updatedTask));
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public TaskDto updateTaskState(String taskId, TaskState taskState) {
         Optional<Task> task = taskRepository.findById(taskId);
         if (task.isPresent()) {
@@ -66,6 +66,7 @@ public class TaskService {
             throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
+    @Transactional("transactionManager")
     public void updateTaskByState(Task task, TaskState taskState) {
         switch (taskState) {
             case FINISHED -> {
@@ -81,7 +82,7 @@ public class TaskService {
         }
     }
 
-    @Transactional
+    @Transactional("transactionManager")
     public void deleteTask(String taskId) {
         taskRepository.deleteTask(taskId);
     }
