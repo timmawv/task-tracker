@@ -36,6 +36,8 @@ public class KafkaConfig {
     private String groupId;
     @Value("${spring.kafka.consumer.auto-offset-reset}")
     private String autoOffsetReset;
+    @Value("${spring.kafka.consumer.isolation-level}")
+    private String isolationLevel;
     @Value("${spring.kafka.consumer.topic}")
     private String emailTopic;
 
@@ -49,6 +51,7 @@ public class KafkaConfig {
         config.put(JsonDeserializer.TRUSTED_PACKAGES, trustedPackages);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId); // с помощью этой настройки наши реплики будут читать разные партиции. Будет балансировка
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, autoOffsetReset); // с помощью этой настройки наши реплики будут читать разные партиции. Будет балансировка
+        config.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, isolationLevel.toLowerCase());
 
         return new DefaultKafkaConsumerFactory<>(config);
     }

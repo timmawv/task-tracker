@@ -9,6 +9,7 @@ spring:
       properties.spring.json.trusted:
         packages: "*"
       auto-offset-reset: latest
+      isolation-level: read_committed
 
   mail:
     host: ${MAIL_HOST}
