@@ -12,11 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ThemeResolver;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -66,8 +64,7 @@ public class TaskService {
             throw new AppException(AppExceptionMessage.TASK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    @Transactional("transactionManager")
-    public void updateTaskByState(Task task, TaskState taskState) {
+    private void updateTaskByState(Task task, TaskState taskState) {
         switch (taskState) {
             case FINISHED -> {
                 task.setIsCompleted(true);

@@ -1,5 +1,6 @@
 package avlyakulov.timur.taskTrackerApi.controller;
 
+import avlyakulov.timur.taskTrackerApi.config.security.AuthenticatedUserProvider;
 import avlyakulov.timur.taskTrackerApi.dto.AppMessageDto;
 import avlyakulov.timur.taskTrackerApi.dto.TaskDto;
 import avlyakulov.timur.taskTrackerApi.dto.UserDto;
@@ -18,18 +19,17 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final AuthenticatedUserProvider authUser;
 
-    //todo подумать куда вынести этот принципал, забирает место
     @GetMapping
-    public ResponseEntity<List<TaskDto>> getListTask(@AuthenticationPrincipal UserDto userDto) {
-        List<TaskDto> tasks = taskService.findTasksByUserId(userDto.getId());
+    public ResponseEntity<List<TaskDto>> getListTask() {
+        List<TaskDto> tasks = taskService.findTasksByUserId(authUser.getCurrentUserId());
         return ResponseEntity.ok(tasks);
     }
 
-    //todo подумать куда вынести этот принципал, забирает место
     @PostMapping
-    public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto, @AuthenticationPrincipal UserDto userDto) {
-        TaskDto taskResponse = taskService.createTaskByUserId(taskDto, userDto.getId());
+    public ResponseEntity<TaskDto> createTask(@RequestBody @Valid TaskDto taskDto) {
+        TaskDto taskResponse = taskService.createTaskByUserId(taskDto, authUser.getCurrentUserId());
         return ResponseEntity.ok(taskResponse);
     }
 
