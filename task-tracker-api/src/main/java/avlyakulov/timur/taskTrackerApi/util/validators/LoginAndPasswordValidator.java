@@ -1,12 +1,12 @@
-package avlyakulov.timur.taskTrackerApi.util;
+package avlyakulov.timur.taskTrackerApi.util.validators;
 
 import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
 import io.micrometer.common.util.StringUtils;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.SimpleErrors;
 import org.springframework.validation.Validator;
 
 @Component
@@ -34,15 +34,16 @@ public class LoginAndPasswordValidator implements Validator {
     }
 
     @Override
-    public void validate(@NotNull Object target, @NotNull Errors errors) {
+    public Errors validateObject(Object target) {
         SignUpDto signUpDto = (SignUpDto) target;
+        Errors errors = new SimpleErrors(signUpDto);
         String login = signUpDto.getEmail();
         String password = signUpDto.getPassword();
         String confirmPassword = signUpDto.getConfirmPassword();
 
         if (StringUtils.isBlank(login)) {
             rejectValue(LOGIN_FIELD, "Your login can't be null or empty. Enter valid login", errors);
-            return;
+            return errors;
         }
 
         switch (type) {
@@ -52,17 +53,17 @@ public class LoginAndPasswordValidator implements Validator {
 
         if (login.length() < 2 || login.length() > 30) {
             rejectValue(LOGIN_FIELD, "Your login length has to be from 2 to 30 symbols", errors);
-            return;
+            return errors;
         }
 
         if (!(password.length() >= 6 && password.length() <= 25)) {
             rejectValue(PASSWORD_FIELD, "The length of password has to be from 6 to 25", errors);
-            return;
+            return errors;
         }
 
         if (!password.matches(passwordRegex)) {
             rejectValue(PASSWORD_FIELD, "Your password must contain one capital letter one small letter and one number", errors);
-            return;
+            return errors;
         }
 
         Zxcvbn zxcvbn = new Zxcvbn();
@@ -71,10 +72,17 @@ public class LoginAndPasswordValidator implements Validator {
             String suggestions = strength.getFeedback().getSuggestions().toString();
             suggestions = suggestions.substring(1, suggestions.length() - 1);
             rejectValue(PASSWORD_FIELD, "Your password is to easy. Here is some suggestions to help you : ".concat(suggestions), errors);
-            return;
+            return errors;
         }
         if (!password.equals(confirmPassword))
             rejectValue(CONFIRM_PASSWORD_FIELD, "The passwords aren't same. Please enter the same passwords", errors);
+
+        return errors;
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+
     }
 
     private void validateLoginAsLogin(String login, Errors errors) {
