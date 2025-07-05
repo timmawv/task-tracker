@@ -3,7 +3,7 @@ package avlyakulov.timur.taskTrackerApi.config;
 import avlyakulov.timur.taskTrackerApi.dto.ErrorDto;
 import avlyakulov.timur.taskTrackerApi.exception.AppException;
 import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
-import avlyakulov.timur.taskTrackerApi.util.ErrorsParsingBindingResult;
+import avlyakulov.timur.taskTrackerApi.util.validators.ErrorsParsingBindingResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

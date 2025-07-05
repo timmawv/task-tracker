@@ -1,4 +1,4 @@
-package avlyakulov.timur.taskTrackerApi.util;
+package avlyakulov.timur.taskTrackerApi.util.validators;
 
 import avlyakulov.timur.taskTrackerApi.dto.SignUpDto;
 import com.nulabinc.zxcvbn.Strength;

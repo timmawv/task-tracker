@@ -1,4 +1,4 @@
-package avlyakulov.timur.taskTrackerApi.util;
+package avlyakulov.timur.taskTrackerApi.util.validators;
 
 public enum LoginTypeValidatorEnum {
 

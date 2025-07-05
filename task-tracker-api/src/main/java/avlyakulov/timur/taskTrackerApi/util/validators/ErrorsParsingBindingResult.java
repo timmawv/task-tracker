@@ -1,4 +1,4 @@
-package avlyakulov.timur.taskTrackerApi.util;
+package avlyakulov.timur.taskTrackerApi.util.validators;
 
 import avlyakulov.timur.taskTrackerApi.exception.AppException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;

@@ -1,6 +1,5 @@
 package avlyakulov.timur.taskTrackerApi.util.validators;
 
-import avlyakulov.timur.taskTrackerApi.util.ErrorsParsingBindingResult;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 

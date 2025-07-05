@@ -8,7 +8,9 @@ import avlyakulov.timur.taskTrackerApi.exception.AppException;
 import avlyakulov.timur.taskTrackerApi.exception.AppExceptionMessage;
 import avlyakulov.timur.taskTrackerApi.mapper.UserMapper;
 import avlyakulov.timur.taskTrackerApi.repository.UserRepository;
+import avlyakulov.timur.taskTrackerApi.util.validators.LoginAndPasswordValidator;
 import avlyakulov.timur.taskTrackerApi.util.WelcomeLetterUtil;
+import avlyakulov.timur.taskTrackerApi.util.validators.ValidatorUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +30,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserAuthProvider userAuthProvider;
     private final PasswordEncoder passwordEncoder;
+    private final ValidatorUtil validatorUtil;
+    private final LoginAndPasswordValidator loginAndPasswordValidator;
     private final KafkaTemplate<String, WelcomeLetterDto> kafkaTemplate;
     @Value("${spring.kafka.producer.topic}")
     private String emailTopic;
@@ -47,6 +51,7 @@ public class UserService {
 
     @Transactional("transactionManager")
     public UserDto register(SignUpDto signUpDto) {
+        validatorUtil.validate(signUpDto, loginAndPasswordValidator::validateObject);
         User user = userMapper.toEntity(signUpDto);
         user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
         try {
