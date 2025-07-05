@@ -31,7 +31,7 @@ spring:
       properties.delivery.timeout:
         ms: 20000 #максимальное время на повторы сообщения после чего будет TimeoutException
       properties.linger:
-        ms: 0 # сколько накапливаем сообщений батчами
+        ms: 0  #сколько накапливаем сообщений батчами
       properties.request.timeout:
         ms: 10000 #время ожидания одного запроса
       properties.enable:

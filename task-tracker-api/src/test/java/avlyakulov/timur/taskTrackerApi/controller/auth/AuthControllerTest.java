@@ -13,7 +13,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AuthControllerTest extends AbstractTestApplication {
 
